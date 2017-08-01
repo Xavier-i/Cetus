@@ -37,7 +37,7 @@ class LinearRegression {
 
     //Destructor
 private:
-    mat *w
+    mat *w;
     /**
      * Compute the cost J.
      */

@@ -3,7 +3,7 @@
 #include <armadillo>
 #include <vector>
 
-using namespave std;
+using namespace std;
 using namespace arma;
 
 class LinearRegression {
@@ -25,7 +25,7 @@ class LinearRegression {
     LinearRegression(vector< vector<double> > x, vector<double> y, int m);
 
     // Add other features
-    void AddData(double x[], double y[])
+    void AddData(double x[], double y[]);
 
     // Train the model
     void train();

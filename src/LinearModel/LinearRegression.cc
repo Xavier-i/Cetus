@@ -36,19 +36,19 @@ void LinearRegression::train(){
   mat xtx = (this->x->t() * (*this->x));
   // Check if xtx is full-rank matrix
   if ( rank(xtx) == this->m ){
-    this->w = new mat(inv(xtx) * this->->t() * y);
-    this->train = true;
+    this->w = new mat(inv(xtx) * this->x->t() * y);
+    this->trained = true;
   } else{
     std::cerr << "you have to regularize your data set"<< std::endl;
   }
 }
 
 double LinearRegression::predict(vector<double> x){
-  if (!this->train){
+  if (!this->trained){
     std::cerr<<"This model hasn't been trained"<<std::endl;
     return 0.0;
   }else{
-    return (*this->w)*vec(x);
+    return ((*this->w)*vec(x)).eval()(0,0);
   }
 
 }

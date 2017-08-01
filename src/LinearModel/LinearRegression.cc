@@ -12,7 +12,9 @@ LinearRegression::LinearRegression(vector< vector<double> > x, vector<double> y,
     */
 
     this->x = new mat(x,m,x[0].size(),true, false);
-
+//
+// add bias column to x
+//
     this->y = new vec(y);
     this->m = m;
     this->trained = false;
@@ -24,8 +26,29 @@ LinearRegression::~LinearRegression(){
   delete w;
 }
 
-void AddData(double x[], double y[]){
+void LinearRegression::AddData(double x[], double y[]){
   //To do
   delete this->w;
   this -> trained = false;
+}
+
+void LinearRegression::train(){
+  mat xtx = (this->x->t() * (*this->x));
+  // Check if xtx is full-rank matrix
+  if ( rank(xtx) == this->m ){
+    this->w = new mat(inv(xtx) * this->->t() * y);
+    this->train = true;
+  } else{
+    std::cerr << "you have to regularize your data set"<< std::endl;
+  }
+}
+
+double LinearRegression::predict(vector<double> x){
+  if (!this->train){
+    std::cerr<<"This model hasn't been trained"<<std::endl;
+    return 0.0;
+  }else{
+    return (*this->w)*vec(x);
+  }
+
 }

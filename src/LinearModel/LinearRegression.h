@@ -23,7 +23,7 @@ public:
   ~LinearRegression();
 
   // Add other features
-  void AddData(double x[], double y[]);
+  void AddData(arma::mat *extraX, arma::vec *extraY, arma::uword m);
 
   // Train the model
   void Train();

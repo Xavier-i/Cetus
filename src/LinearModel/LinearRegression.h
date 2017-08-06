@@ -1,63 +1,60 @@
 #ifndef MODEL_LINEARREGRESSION_H_
 #define MODEL_LINEARREGRESSION_H_
 #include <armadillo>
-#include <vector>
-
-using namespace std;
-using namespace arma;
 
 class LinearRegression {
+  // First feature
+  arma::mat *x;
 
-  public:
-    // First feature
-    mat *x;
+  // Target feature
+  arma::vec *y;
 
-    // Target feature
-    vec *y;
+  // Number of training examples
+  arma::uword m;
 
-    // Number of training examples
-    int m;
+  // Model Trained or not
+  bool trained;
 
-    // Model Trained or not
-    bool trained;
+public:
+  // Create a new instance from the given data set.
+  LinearRegression(arma::mat *, arma::vec *, arma::uword);
 
-    // Create a new instance from the given data set.
-    LinearRegression(vector< vector<double> > x, vector<double> y, int m);
+  // Destructor
+  ~LinearRegression();
 
-    // Add other features
-    void AddData(double x[], double y[]);
+  // Add other features
+  void AddData(double x[], double y[]);
 
-    // Train the model
-    void train();
+  // Train the model
+  void train();
 
-    /**
-     * Try to predict y, given an x.
-     */
-    double predict(vector<double> x);
+  // Predict y according to given x
+  double predict(arma::vec *x);
 
-    //Destructor
 private:
-    mat *w;
-    /**
-     * Compute the cost J.
-     */
-    //static double compute_cost(double x[], double y[], double theta[], int m);
+  arma::mat *w;
 
-    /**
-     * Compute the hypothesis.
-     */
-    //static double h(double x, double theta[]);
+  /**
+   * Compute the cost J.
+   */
+  // static double compute_cost(double x[], double y[], double theta[], int m);
 
-    /**
-     * Calculate the target feature from the other ones.
-     */
-    //static double *calculate_predictions(double x[], double theta[], int m);
+  /**
+   * Compute the hypothesis.
+   */
+  // static double h(double x, double theta[]);
 
-    /**
-     * Performs gradient descent to learn theta by taking num_items gradient steps with learning rate alpha.
-     */
-    //static double *gradient_descent(double x[], double y[], double alpha, int iters, double *J, int m);
+  /**
+   * Calculate the target feature from the other ones.
+   */
+  // static double *calculate_predictions(double x[], double theta[], int m);
 
+  /**
+   * Performs gradient descent to learn theta by taking num_items gradient steps
+   * with learning rate alpha.
+   */
+  // static double *gradient_descent(double x[], double y[], double alpha, int
+  // iters, double *J, int m);
 };
 
 #endif

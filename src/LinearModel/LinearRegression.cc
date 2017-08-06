@@ -27,7 +27,7 @@ void LinearRegression::AddData(mat &extraX, vec &extraY) {
 void LinearRegression::Train() {
   mat xtx = (this->x.t() * this->x);
   // Check if xtx is full-rank matrix
-  if (rank(xtx) == y.n_rows) {
+  if (rank(xtx) == xtx.n_rows) {
     this->w = inv(xtx) * this->x.t() * y;
     this->trained = true;
   } else {

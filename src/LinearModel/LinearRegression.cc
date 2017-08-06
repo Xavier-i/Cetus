@@ -5,7 +5,7 @@
 
 using namespace arma;
 
-LinearRegression::LinearRegression(mat &x, vec &y, uword m)
+LinearRegression::LinearRegression(mat &x, vec &y)
     : x{x}, y{y}, trained{false} {
   assert(x.n_rows == y.n_rows);
 
@@ -16,9 +16,9 @@ LinearRegression::LinearRegression(mat &x, vec &y, uword m)
 
 LinearRegression::~LinearRegression() {}
 
-void LinearRegression::AddData(mat &extraX, vec &extraY, uword m) {
+void LinearRegression::AddData(mat &extraX, vec &extraY) {
   assert(extraX.n_rows == extraY.n_rows);
-
+  assert(extraX.n_rows == this->x.n_rows);
   this->trained = false;
   this->x.insert_rows(this->x.n_rows, extraX);
   this->y.insert_rows(this->y.n_rows, extraY);
@@ -34,6 +34,8 @@ void LinearRegression::Train() {
     std::cerr << "you have to regularize your data set" << std::endl;
   }
 }
+
+uword LinearRegression::ExampleNumber() { return this->x.n_rows; }
 
 double LinearRegression::Predict(vec &x) {
   if (!this->trained) {

@@ -9,31 +9,32 @@ class LinearRegression {
   // Target feature
   arma::vec &y;
 
-  // Number of training examples
-  arma::uword m;
+  // Matrix for predication
+  arma::mat w;
 
   // Model Trained or not
   bool trained;
 
 public:
   // Create a new instance from the given data set.
-  LinearRegression(arma::mat &x, arma::vec &y, arma::uword);
+  LinearRegression(arma::mat &x, arma::vec &y);
 
   // Destructor
   ~LinearRegression();
 
   // Add other features
-  void AddData(arma::mat &extraX, arma::vec &extraY, arma::uword m);
+  void AddData(arma::mat &extraX, arma::vec &extraY);
 
   // Train the model
   void Train();
+
+  // Return number of example
+  arma::uword ExampleNumber();
 
   // Predict y according to given x
   double Predict(arma::vec &x);
 
 private:
-  arma::mat w;
-
   /**
    * Compute the cost J.
    */

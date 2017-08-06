@@ -17,7 +17,7 @@ void LinearRegression::AddData(double x[], double y[]) {
   this->trained = false;
 }
 
-void LinearRegression::train() {
+void LinearRegression::Train() {
   arma::mat xtx = (this->x->t() * (*this->x));
   // Check if xtx is full-rank matrix
   if (rank(xtx) == this->m) {
@@ -28,11 +28,10 @@ void LinearRegression::train() {
   }
 }
 
-double LinearRegression::predict(arma::vec *x) {
+double LinearRegression::Predict(arma::vec *x) {
   if (!this->trained) {
     std::cerr << "This model hasn't been trained" << std::endl;
     return 0.0;
   }
-
   return ((*this->w) * (*x)).eval()(0, 0);
 }

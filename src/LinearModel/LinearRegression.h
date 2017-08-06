@@ -26,10 +26,10 @@ public:
   void AddData(double x[], double y[]);
 
   // Train the model
-  void train();
+  void Train();
 
   // Predict y according to given x
-  double predict(arma::vec *x);
+  double Predict(arma::vec *x);
 
 private:
   arma::mat *w;

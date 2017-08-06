@@ -17,17 +17,13 @@ class LinearRegression {
 
 public:
   // Create a new instance from the given data set.
-  LinearRegression(arma::mat &x,
-                   arma::vec &y,
-                   arma::uword);
+  LinearRegression(arma::mat &x, arma::vec &y, arma::uword);
 
   // Destructor
   ~LinearRegression();
 
   // Add other features
-  void AddData(arma::mat &extraX,
-               arma::vec &extraY,
-               arma::uword m);
+  void AddData(arma::mat &extraX, arma::vec &extraY, arma::uword m);
 
   // Train the model
   void Train();
@@ -36,7 +32,7 @@ public:
   double Predict(arma::vec &x);
 
 private:
-  arma::mat &w;
+  arma::mat w;
 
   /**
    * Compute the cost J.

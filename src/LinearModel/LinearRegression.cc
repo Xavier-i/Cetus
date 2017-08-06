@@ -5,8 +5,8 @@
 LinearRegression::LinearRegression(arma::mat *x, arma::vec *y, arma::uword m)
     : y{y}, m{m}, trained{false} {
       //Create Bias Layer and append at the end of  x
-      arma::mat bias = ones<arma::mat>(m,2);
-      this->x = x->insert(x->n_cols ,bias);
+      arma::mat bias = arma::ones<arma::mat>(m,2);
+      this->x = x->arma::insert_cols(x->n_cols, bias);
     }
 
 LinearRegression::~LinearRegression() {

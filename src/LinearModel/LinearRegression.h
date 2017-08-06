@@ -4,10 +4,10 @@
 
 class LinearRegression {
   // First feature
-  arma::mat *x;
+  arma::mat &x;
 
   // Target feature
-  arma::vec *y;
+  arma::vec &y;
 
   // Number of training examples
   arma::uword m;
@@ -17,22 +17,26 @@ class LinearRegression {
 
 public:
   // Create a new instance from the given data set.
-  LinearRegression(arma::mat *, arma::vec *, arma::uword);
+  LinearRegression(arma::mat &x,
+                   arma::vec &y,
+                   arma::uword);
 
   // Destructor
   ~LinearRegression();
 
   // Add other features
-  void AddData(arma::mat *extraX, arma::vec *extraY, arma::uword m);
+  void AddData(arma::mat &extraX,
+               arma::vec &extraY,
+               arma::uword m);
 
   // Train the model
   void Train();
 
   // Predict y according to given x
-  double Predict(arma::vec *x);
+  double Predict(arma::vec &x);
 
 private:
-  arma::mat *w;
+  arma::mat &w;
 
   /**
    * Compute the cost J.

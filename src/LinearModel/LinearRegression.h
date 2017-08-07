@@ -9,8 +9,8 @@ class LinearRegression {
   // Target feature
   arma::vec y;
 
-  // Matrix for predication
-  arma::mat w;
+  // Vector for predication
+  arma::vec theta;
 
 public:
   // Model Trained or not
@@ -54,8 +54,7 @@ private:
    * Performs gradient descent to learn theta by taking num_items gradient steps
    * with learning rate alpha.
    */
-  // static double *gradient_descent(double x[], double y[], double alpha, int
-  // iters, double *J, int m);
+  // void Gradient_Descent(double alpha, unsigned int iters);
 };
 
 #endif

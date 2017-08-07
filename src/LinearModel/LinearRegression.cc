@@ -34,7 +34,7 @@ void LinearRegression::Train() {
   mat xtx = (this->x.t() * this->x);
   // Check if xtx is full-rank matrix
   if (rank(xtx) == xtx.n_rows) {
-    this->w = pinv(xtx) * this->x.t() * y;
+    this->theta = pinv(xtx) * this->x.t() * y;
     this->trained = true;
   } else {
     std::cerr << "you have to regularize your data set" << std::endl;
@@ -51,5 +51,11 @@ double LinearRegression::Predict(vec &x) {
   vec bias = vec("1");
   vec input = x;
   input.insert_rows(x.n_rows, bias);
-  return (input.t() * this->w).eval()(0, 0);
+  return (input.t() * this->theta).eval()(0, 0);
 }
+
+/*void LinearRegression::Gradient_Descent(double alpha, unsigned int iters){
+  if (this->trained != true  ){
+
+  }
+}*/

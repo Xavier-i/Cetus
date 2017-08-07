@@ -2,6 +2,11 @@
 #define MODEL_LINEARREGRESSION_H_
 #include <armadillo>
 
+enum TrainingType {
+  normalEquation,
+  gradientDescent,
+};
+
 class LinearRegression {
   // First feature
   arma::mat x;
@@ -26,7 +31,7 @@ public:
   void AddData(arma::mat &extraX, arma::vec &extraY);
 
   // Train the model
-  void Train(bool NormEqu = true, double alpha = 0, unsigned int iters = 0);
+  void Train(TrainingType Type, double alpha = 0, unsigned int iters = 0);
 
   // Return number of example
   arma::uword ExampleNumber();

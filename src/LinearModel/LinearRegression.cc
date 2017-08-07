@@ -30,11 +30,14 @@ void LinearRegression::AddData(mat &extraX, vec &extraY) {
   this->y.insert_rows(this->y.n_rows, extraY);
 }
 
-void LinearRegression::Train(bool NormEqu, double alpha, unsigned int iters) {
-  if (NormEqu) {
+void LinearRegression::Train(TrainingType Type, double alpha,
+                             unsigned int iters) {
+  if (Type == normalEquation) {
     this->NormalEquation();
-  } else {
+  } else if (Type == gradientDescent) {
     this->GradientDescent(alpha, iters);
+  } else {
+    std::cerr << "Invalid training type" << std::endl;
   }
 }
 

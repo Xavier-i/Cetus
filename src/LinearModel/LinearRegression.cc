@@ -10,7 +10,7 @@ LinearRegression::LinearRegression(mat &x, vec &y)
   assert(x.n_rows == y.n_rows);
 
   // Create bias column and append at the end of  x
-  mat bias = ones<mat>(x.n_rows, 1);
+  mat bias = ones<mat>(this->ExampleNumber(), 1);
   this->x.insert_cols(this->x.n_cols, bias);
 }
 

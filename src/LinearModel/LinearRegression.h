@@ -4,18 +4,18 @@
 
 class LinearRegression {
   // First feature
-  arma::mat &x;
+  arma::mat x;
 
   // Target feature
-  arma::vec &y;
+  arma::vec y;
 
   // Matrix for predication
   arma::mat w;
 
+public:
   // Model Trained or not
   bool trained;
 
-public:
   // Create a new instance from the given data set.
   LinearRegression(arma::mat &x, arma::vec &y);
 

@@ -5,27 +5,24 @@
 
 using namespace arma;
 
-LinearRegression::LinearRegression(mat &x, vec &y) : trained{false} {
+LinearRegression::LinearRegression(mat &x, vec &y)
+    : x{x}, y{y}, trained{false} {
   assert(x.n_rows == y.n_rows);
 
-  // Create Bias Layer and append at the end of  x
+  // Create bias column and append at the end of  x
   mat bias = ones<mat>(x.n_rows, 1);
-  mat inputX = x;
-  inputX.insert_cols(x.n_cols, bias);
-  this->x = inputX;
-  vec inputY = y;
-  this->y = inputY;
-  // this->x = inputX;
+  this->x.insert_cols(this->x.n_cols, bias);
 }
 
 LinearRegression::~LinearRegression() {}
 
 void LinearRegression::AddData(mat &extraX, vec &extraY) {
   assert(extraX.n_rows == extraY.n_rows);
+  // Add 1 because x has a bias column
   assert((extraX.n_cols + 1) == this->x.n_cols);
 
   this->trained = false;
-  // Add Bias Layer to latest added input
+  // Add Bias column to latest added input
   mat bias = ones<mat>(extraX.n_rows, 1);
   mat inputX = extraX;
   inputX.insert_cols(inputX.n_cols, bias);

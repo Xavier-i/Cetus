@@ -47,7 +47,7 @@ void testSucc2() {
   std::cout << A->Predict(q) << std::endl;
 }
 
-main() {
+int main() {
   testFailed();
   testSucc();
   testSucc2();

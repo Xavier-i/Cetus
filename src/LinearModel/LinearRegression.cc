@@ -34,7 +34,7 @@ void LinearRegression::Train() {
   mat xtx = (this->x.t() * this->x);
   // Check if xtx is full-rank matrix
   if (rank(xtx) == xtx.n_rows) {
-    this->w = inv(xtx) * this->x.t() * y;
+    this->w = pinv(xtx) * this->x.t() * y;
     this->trained = true;
   } else {
     std::cerr << "you have to regularize your data set" << std::endl;

@@ -35,25 +35,14 @@ public:
   double Predict(arma::vec &x);
 
 private:
-  /**
-   * Compute Cost Functions's Derivative
-   */
+  // Compute Cost Functions's Derivative
   arma::vec CostDerivative();
 
-  /**
-   * Compute the hypothesis.
-   */
-  // static double h(double x, double theta[]);
-
-  /**
-   * Calculate the target feature from the other ones.
-   */
-  // static double *calculate_predictions(double x[], double theta[], int m);
+  // Normal Equation Method to find theta
   void NormalEquation();
-  /**
-   * Performs gradient descent to learn theta by taking num_items gradient steps
-   * with learning rate alpha.
-   */
+
+  // Performs gradient descent to learn theta by taking iters gradient steps
+  //   with learning rate alpha.
   void GradientDescent(double alpha, unsigned int iters);
 };
 

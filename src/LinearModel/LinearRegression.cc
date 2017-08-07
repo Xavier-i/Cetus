@@ -42,7 +42,7 @@ void LinearRegression::NormalEquation() {
   mat xtx = (this->x.t() * this->x);
   // Check if xtx is full-rank matrix
   if (rank(xtx) == xtx.n_rows) {
-    this->theta = pinv(xtx) * this->x.t() * y;
+    this->theta = pinv(xtx) * this->x.t() * this->y;
     this->trained = true;
   } else {
     std::cerr << "you have to regularize your data set" << std::endl;

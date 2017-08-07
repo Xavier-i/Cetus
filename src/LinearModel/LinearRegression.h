@@ -26,7 +26,7 @@ public:
   void AddData(arma::mat &extraX, arma::vec &extraY);
 
   // Train the model
-  void Train();
+  void Train(bool NormEqu = true, double alpha = 0, unsigned int iters = 0);
 
   // Return number of example
   arma::uword ExampleNumber();
@@ -36,9 +36,9 @@ public:
 
 private:
   /**
-   * Compute the cost J.
+   * Compute Cost Functions's Derivative
    */
-  // static double compute_cost(double x[], double y[], double theta[], int m);
+  arma::vec CostDerivative();
 
   /**
    * Compute the hypothesis.
@@ -49,12 +49,12 @@ private:
    * Calculate the target feature from the other ones.
    */
   // static double *calculate_predictions(double x[], double theta[], int m);
-
+  void NormalEquation();
   /**
    * Performs gradient descent to learn theta by taking num_items gradient steps
    * with learning rate alpha.
    */
-  // void Gradient_Descent(double alpha, unsigned int iters);
+  void GradientDescent(double alpha, unsigned int iters);
 };
 
 #endif

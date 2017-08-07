@@ -30,7 +30,15 @@ void LinearRegression::AddData(mat &extraX, vec &extraY) {
   this->y.insert_rows(this->y.n_rows, extraY);
 }
 
-void LinearRegression::Train() {
+void LinearRegression::Train(bool NormEqu, double alpha, unsigned int iters) {
+  if (NormEqu) {
+    this->NormalEquation();
+  } else {
+    this->GradientDescent(alpha, iters);
+  }
+}
+
+void LinearRegression::NormalEquation() {
   mat xtx = (this->x.t() * this->x);
   // Check if xtx is full-rank matrix
   if (rank(xtx) == xtx.n_rows) {
@@ -54,8 +62,19 @@ double LinearRegression::Predict(vec &x) {
   return (input.t() * this->theta).eval()(0, 0);
 }
 
-/*void LinearRegression::Gradient_Descent(double alpha, unsigned int iters){
-  if (this->trained != true  ){
+vec LinearRegression::CostDerivative() {
+  vec deriv = (((this->x * this->theta) - this->y).t() * this->x).t();
+  return 1 / (float)this->ExampleNumber() * deriv;
+}
 
+void LinearRegression::GradientDescent(double alpha, unsigned int iters) {
+  if (this->trained != true) {
+    // Initialize Theta
+    this->theta = ones<vec>(this->x.n_cols);
   }
-}*/
+  for (unsigned int i = 0; i < iters; i++) {
+    this->theta = this->theta - (alpha * this->CostDerivative());
+  }
+
+  this->trained = true;
+}

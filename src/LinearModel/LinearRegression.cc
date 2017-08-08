@@ -67,7 +67,7 @@ double LinearRegression::Predict(vec &x) {
 
 vec LinearRegression::CostDerivative() {
   vec deriv = (((this->x * this->theta) - this->y).t() * this->x).t();
-  return 1 / (float)this->ExampleNumber() * deriv;
+  return 1 / (double)this->ExampleNumber() * deriv;
 }
 
 void LinearRegression::GradientDescent(double alpha, unsigned int iters) {

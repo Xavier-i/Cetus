@@ -1,4 +1,5 @@
 #include "LinearRegression.h"
+#include "LogisticRegression.h"
 #include <armadillo>
 #include <assert.h>
 #include <iostream>
@@ -47,8 +48,22 @@ void testSucc2() {
   std::cout << A->Predict(q) << std::endl;
 }
 
+void test3() {
+  mat x = mat("2 2; 3 3; 4 4; -1 2; -10 8; 8 9; -4 -4;1 -3; 8 1; 3 -4; 1 -1; "
+              "-1 1; 4 -6");
+  vec y = vec("1 1 1 -1 -1 1 -1 -1 1 -1 -1 -1 -1 ");
+  LogisticRegression *A = new LogisticRegression(x, y);
+  A->Train(true, 0.1, 100000);
+  vec p = vec("3 0");
+  vec q = vec("5 -5");
+  vec f = vec("3 7");
+  std::cout << A->Predict(p) << std::endl;
+  std::cout << A->Predict(q) << std::endl;
+  std::cout << A->Predict(f) << std::endl;
+}
 int main() {
   testFailed();
-  testSucc();
+  // testSucc();
   testSucc2();
+  test3();
 }

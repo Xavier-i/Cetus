@@ -18,6 +18,8 @@ class LogisticRegression {
   arma::vec theta;
 
 public:
+  double probabilityThreshold = 0.5;
+
   // Model Trained or not
   bool trained;
 
@@ -42,6 +44,8 @@ public:
 private:
   // Compute Cost Functions's Derivative
   arma::vec CostDerivative();
+
+  arma::mat SigmoidFunction(arma::mat inputX);
 
   // Normal Equation Method to find theta
   // void NormalEquation();

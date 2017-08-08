@@ -2,6 +2,7 @@
 #include <armadillo>
 #include <assert.h>
 #include <iostream>
+#include <math.h>
 
 using namespace arma;
 
@@ -16,7 +17,7 @@ LogisticRegression::LogisticRegression(mat &x, vec &y)
 
 LogisticRegression::~LogisticRegression() {}
 
-void LinearRegression::AddData(mat &extraX, vec &extraY) {
+void LogisticRegression::AddData(mat &extraX, vec &extraY) {
   assert(extraX.n_rows == extraY.n_rows);
   // Add 1 because x has a bias column
   assert((extraX.n_cols + 1) == this->x.n_cols);
@@ -30,32 +31,21 @@ void LinearRegression::AddData(mat &extraX, vec &extraY) {
   this->y.insert_rows(this->y.n_rows, extraY);
 }
 
-/*
-void LinearRegression::Train(TrainingType Type, double alpha,
-                             unsigned int iters) {
-  if (Type == normalEquation) {
+void LogisticRegression::Train(TrainingType Type, double alpha,
+                               unsigned int iters) {
+  /*if (Type == normalEquation) {
     this->NormalEquation();
-  } else if (Type == gradientDescent) {
+  } else*/
+  if (Type == gradientDescent) {
     this->GradientDescent(alpha, iters);
   } else {
     std::cerr << "Invalid training type" << std::endl;
   }
 }
 
-void LinearRegression::NormalEquation() {
-  mat xtx = (this->x.t() * this->x);
-  // Check if xtx is full-rank matrix
-  if (rank(xtx) == xtx.n_rows) {
-    this->theta = pinv(xtx) * this->x.t() * this->y;
-    this->trained = true;
-  } else {
-    std::cerr << "you have to regularize your data set" << std::endl;
-  }
-}
+uword LogisticRegression::ExampleNumber() { return this->x.n_rows; }
 
-uword LinearRegression::ExampleNumber() { return this->x.n_rows; }
-
-double LinearRegression::Predict(vec &x) {
+double LogisticRegression::Predict(vec &x) {
   if (!this->trained) {
     std::cerr << "This model hasn't been trained" << std::endl;
     return 0.0;
@@ -63,15 +53,32 @@ double LinearRegression::Predict(vec &x) {
   vec bias = vec("1");
   vec input = x;
   input.insert_rows(0, bias);
-  return (input.t() * this->theta).eval()(0, 0);
+  double probablity = (input.t() * this->theta).eval()(0, 0);
+  if (probablity >= probabilityThreshold) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
-vec LinearRegression::CostDerivative() {
-  vec deriv = (((this->x * this->theta) - this->y).t() * this->x).t();
-  return 1 / (float)this->ExampleNumber() * deriv;
+arma::mat LogisticRegression::SigmoidFunction(arma::mat inputX) {
+  return 1 / (1 + exp(-inputX));
 }
-*/
-void LinearRegression::GradientDescent(double alpha, unsigned int iters) {
+
+/*
+float LogisticRegression::CostFunction() {
+  vec h = this->SigmoidFunction(this->x * this->theta);
+  vec ve = - this->y.t() * log(h) - ((1 - y).t() * log(1 - h));
+  return (1 / (float)this->ExampleNumber() * ve).eval()(0, 0);
+}*/
+
+vec LogisticRegression::CostDerivative() {
+  vec h = this->SigmoidFunction(this->x * this->theta);
+  vec deriv = this->x.t() * (h - this->y);
+  return 1 / (double)this->ExampleNumber() * deriv;
+}
+
+void LogisticRegression::GradientDescent(double alpha, unsigned int iters) {
   if (this->trained != true || this->theta.n_rows != this->x.n_cols) {
     // Initialize Theta
     this->theta = zeros<vec>(this->x.n_cols);

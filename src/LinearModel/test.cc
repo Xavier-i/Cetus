@@ -51,7 +51,7 @@ void testSucc2() {
 void test3() {
   mat x = mat("2 2; 3 3; 4 4; -1 2; -10 8; 8 9; -4 -4;1 -3; 8 1; 3 -4; 1 -1; "
               "-1 1; 4 -6");
-  vec y = vec("1 1 1 -1 -1 1 -1 -1 1 -1 -1 -1 -1 ");
+  vec y = vec("1 1 1 0 0 1 0 0 1 0 0 0 0 ");
   LogisticRegression *A = new LogisticRegression(x, y);
   A->Train(true, 0.1, 100000);
   vec p = vec("3 0");

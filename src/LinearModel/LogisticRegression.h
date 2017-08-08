@@ -41,6 +41,7 @@ public:
   double Probablity(arma::vec &x);
 
   // Cost Function
+  // May return -nan when Cost is really small
   double CostFunction();
 
 private:

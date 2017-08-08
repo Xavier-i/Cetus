@@ -58,10 +58,10 @@ double LogisticRegression::Probablity(vec &x) {
 }
 
 double LogisticRegression::Predict(vec &x) {
-  double prob = this->probablity(x) if (prob >= probabilityThreshold) {
+  double prob = this->Probablity(x);
+  if (prob >= probabilityThreshold) {
     return 1;
-  }
-  else {
+  } else {
     return 0;
   }
 }

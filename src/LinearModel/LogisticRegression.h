@@ -7,6 +7,7 @@ class LogisticRegression {
   arma::mat x;
 
   // Target feature
+  // Elements in y have to be either 1 or 0
   arma::vec y;
 
   // Vector for predication

@@ -31,12 +31,12 @@ void LogisticRegression::AddData(mat &extraX, vec &extraY) {
   this->y.insert_rows(this->y.n_rows, extraY);
 }
 
-void LogisticRegression::Train(TrainingType Type, double alpha,
+void LogisticRegression::Train(bool gradient, double alpha,
                                unsigned int iters) {
   /*if (Type == normalEquation) {
     this->NormalEquation();
   } else*/
-  if (Type == gradientDescent) {
+  if (gradient) {
     this->GradientDescent(alpha, iters);
   } else {
     std::cerr << "Invalid training type" << std::endl;

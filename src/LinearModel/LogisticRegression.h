@@ -2,11 +2,6 @@
 #define MODEL_LOGISTICREGRESSION_H_
 #include <armadillo>
 
-enum TrainingType {
-  // normalEquation,
-  gradientDescent,
-};
-
 class LogisticRegression {
   // First feature
   arma::mat x;
@@ -33,7 +28,7 @@ public:
   void AddData(arma::mat &extraX, arma::vec &extraY);
 
   // Train the model
-  void Train(TrainingType Type, double alpha = 0, unsigned int iters = 0);
+  void Train(bool gradient, double alpha = 0, unsigned int iters = 0);
 
   // Return number of example
   arma::uword ExampleNumber();

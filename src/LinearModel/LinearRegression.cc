@@ -73,7 +73,7 @@ vec LinearRegression::CostDerivative() {
 void LinearRegression::GradientDescent(double alpha, unsigned int iters) {
   if (this->trained != true || this->theta.n_rows != this->x.n_cols) {
     // Initialize Theta
-    this->theta = ones<vec>(this->x.n_cols);
+    this->theta = zeros<vec>(this->x.n_cols);
   }
   for (unsigned int i = 0; i < iters; i++) {
     this->theta = this->theta - (alpha * this->CostDerivative());

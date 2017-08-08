@@ -60,6 +60,7 @@ void test3() {
   std::cout << A->Predict(p) << std::endl;
   std::cout << A->Predict(q) << std::endl;
   std::cout << A->Predict(f) << std::endl;
+  std::cout << A->CostFunction() << std::endl;
 }
 int main() {
   testFailed();

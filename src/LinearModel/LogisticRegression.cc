@@ -73,12 +73,11 @@ arma::mat LogisticRegression::SigmoidFunction(arma::mat inputX) {
   return 1 / (1 + exp(-inputX));
 }
 
-/*
-float LogisticRegression::CostFunction() {
+double LogisticRegression::CostFunction() {
   vec h = this->SigmoidFunction(this->x * this->theta);
-  vec ve = - this->y.t() * log(h) - ((1 - y).t() * log(1 - h));
+  vec ve = (-this->y.t() * log(h)) - ((1 - y).t() * log(1 - h));
   return (1 / (float)this->ExampleNumber() * ve).eval()(0, 0);
-}*/
+}
 
 vec LogisticRegression::CostDerivative() {
   vec h = this->SigmoidFunction(this->x * this->theta);

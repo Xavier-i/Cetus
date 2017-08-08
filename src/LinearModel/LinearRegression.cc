@@ -11,7 +11,7 @@ LinearRegression::LinearRegression(mat &x, vec &y)
 
   // Create bias column and append at the end of  x
   mat bias = ones<mat>(this->ExampleNumber(), 1);
-  this->x.insert_cols(this->x.n_cols, bias);
+  this->x.insert_cols(0, bias);
 }
 
 LinearRegression::~LinearRegression() {}
@@ -25,7 +25,7 @@ void LinearRegression::AddData(mat &extraX, vec &extraY) {
   // Add Bias column to latest added input
   mat bias = ones<mat>(extraX.n_rows, 1);
   mat inputX = extraX;
-  inputX.insert_cols(inputX.n_cols, bias);
+  inputX.insert_cols(0, bias);
   this->x.insert_rows(this->x.n_rows, inputX);
   this->y.insert_rows(this->y.n_rows, extraY);
 }
@@ -61,7 +61,7 @@ double LinearRegression::Predict(vec &x) {
   }
   vec bias = vec("1");
   vec input = x;
-  input.insert_rows(x.n_rows, bias);
+  input.insert_rows(0, bias);
   return (input.t() * this->theta).eval()(0, 0);
 }
 

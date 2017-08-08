@@ -36,6 +36,9 @@ public:
   // Predict y according to given x
   double Predict(arma::vec &x);
 
+  // Predict probablity of 1
+  double Pobablity(arma::vec &x);
+
 private:
   // Compute Cost Functions's Derivative
   arma::vec CostDerivative();

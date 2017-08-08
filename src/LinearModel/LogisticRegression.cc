@@ -45,7 +45,7 @@ void LogisticRegression::Train(bool gradient, double alpha,
 
 uword LogisticRegression::ExampleNumber() { return this->x.n_rows; }
 
-double LogisticRegression::Predict(vec &x) {
+double LogisticRegression::Probablity(vec &x) {
   if (!this->trained) {
     std::cerr << "This model hasn't been trained" << std::endl;
     return 0.0;
@@ -53,15 +53,23 @@ double LogisticRegression::Predict(vec &x) {
   vec bias = vec("1");
   vec input = x;
   input.insert_rows(0, bias);
-  double probablity = (input.t() * this->theta).eval()(0, 0);
-  if (probablity >= probabilityThreshold) {
+  double prob = (input.t() * this->theta).eval()(0, 0);
+  return prob;
+}
+
+double LogisticRegression::Predict(vec &x) {
+  double prob = this->probablity(x) if (prob >= probabilityThreshold) {
     return 1;
-  } else {
+  }
+  else {
     return 0;
   }
 }
 
 arma::mat LogisticRegression::SigmoidFunction(arma::mat inputX) {
+  //--     1      --//
+  //-- ---------- --//
+  //-- 1 + e^(-inpuX) --//
   return 1 / (1 + exp(-inputX));
 }
 

@@ -73,10 +73,14 @@ arma::mat LogisticRegression::SigmoidFunction(arma::mat inputX) {
   return 1 / (1 + exp(-inputX));
 }
 
-double LogisticRegression::CostFunction() {
+double LogisticRegression::SelfCost() { return this->Cost(this->x); }
+
+double LogisticRegression::Cost(mat &inputX) {
+  this->InitializeTheta();
   //--                  h = g(X Theta)                  --//
   //--J(Theta) = 1/m * (-y^T log(h) - (1-y)^T log(1-h))--//
-  vec h = this->SigmoidFunction(this->x * this->theta);
+  assert(inputX.n_cols == this->theta.n_rows);
+  vec h = this->SigmoidFunction(inputX * this->theta);
   vec ve = (-this->y.t() * log(h)) - ((1 - y).t() * log(1 - h));
   return (1 / (float)this->ExampleNumber() * ve).eval()(0, 0);
 }
@@ -88,13 +92,17 @@ vec LogisticRegression::CostDerivative() {
 }
 
 void LogisticRegression::GradientDescent(double alpha, unsigned int iters) {
-  if (this->trained != true || this->theta.n_rows != this->x.n_cols) {
-    // Initialize Theta
-    this->theta = zeros<vec>(this->x.n_cols);
-  }
+  this->InitializeTheta();
   for (unsigned int i = 0; i < iters; i++) {
     this->theta = this->theta - (alpha * this->CostDerivative());
   }
 
   this->trained = true;
+}
+
+void LogisticRegression::InitializeTheta() {
+  if (this->trained != true || this->theta.n_rows != this->x.n_cols) {
+    // Initialize Theta
+    this->theta = zeros<vec>(this->x.n_cols);
+  }
 }

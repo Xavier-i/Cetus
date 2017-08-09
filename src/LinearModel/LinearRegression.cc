@@ -70,20 +70,28 @@ vec LinearRegression::CostDerivative() {
   return 1 / (double)this->ExampleNumber() * deriv;
 }
 
-double LinearRegression::CostFunction() {
+double LinearRegression::SelfCost() { return this->Cost(this->x); }
+
+double LinearRegression::Cost(mat &inputX) {
+  this->InitializeTheta();
   //--J(Theta) = 1/2m * (X Theta - y)^T (X Theta - y)--//
-  vec ve = (this->x * this->theta) - this->y;
+  assert(inputX.n_cols == this->theta.n_rows);
+  vec ve = (inputX * this->theta) - this->y;
   return (((float)1 / 2) * this->ExampleNumber() * ve.t() * ve).eval()(0, 0);
 }
 
 void LinearRegression::GradientDescent(double alpha, unsigned int iters) {
-  if (this->trained != true || this->theta.n_rows != this->x.n_cols) {
-    // Initialize Theta
-    this->theta = zeros<vec>(this->x.n_cols);
-  }
+  this->InitializeTheta();
   for (unsigned int i = 0; i < iters; i++) {
     this->theta = this->theta - (alpha * this->CostDerivative());
   }
 
   this->trained = true;
+}
+
+void LinearRegression::InitializeTheta() {
+  if (this->trained != true || this->theta.n_rows != this->x.n_cols) {
+    // Initialize Theta
+    this->theta = zeros<vec>(this->x.n_cols);
+  }
 }

@@ -46,7 +46,7 @@ void testSucc2() {
   A->AddData(ex, ey);
   A->Train(gradientDescent, 0.01, 1000);
   std::cout << A->Predict(q) << std::endl;
-  std::cout << A->CostFunction() << std::endl;
+  std::cout << A->SelfCost() << std::endl;
 }
 
 void test3() {
@@ -61,7 +61,7 @@ void test3() {
   std::cout << A->Predict(p) << std::endl;
   std::cout << A->Predict(q) << std::endl;
   std::cout << A->Predict(f) << std::endl;
-  std::cout << A->CostFunction() << std::endl;
+  std::cout << A->SelfCost() << std::endl;
 }
 int main() {
   testFailed();

@@ -40,11 +40,17 @@ public:
   // Predict probablity of 1
   double Probablity(arma::vec &x);
 
+  // Cost function using the own data;
+  double SelfCost();
+
   // Cost Function
   // May return -nan when Cost is really small
-  double CostFunction();
+  double Cost(arma::mat &inputX);
 
 private:
+  // Initialize Theta if doesn't exist.
+  void InitializeTheta();
+
   // Compute Cost Functions's Derivative
   arma::vec CostDerivative();
 

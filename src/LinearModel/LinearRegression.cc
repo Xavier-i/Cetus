@@ -48,7 +48,6 @@ void LinearRegression::NormalEquation() {
   L[0] = 0;
   // Check if xtx is full-rank matrix
   if (rank(xtx) == xtx.n_rows || this->regPara > 0) {
-
     this->theta = pinv(xtx - (this->regPara * L)) * this->x.t() * this->y;
     this->trained = true;
   } else {

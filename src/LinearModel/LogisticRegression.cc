@@ -7,8 +7,8 @@
 
 using namespace arma;
 
-LogisticRegression::LogisticRegression(mat &x, vec &y)
-    : x{x}, y{y}, trained{false} {
+LogisticRegression::LogisticRegression(mat &x, vec &y, double regPara)
+    : x{x}, y{y}, regPara{regPara}, trained{false} {
   assert(x.n_rows == y.n_rows);
 
   // Create bias column and append at the end of  x
@@ -83,13 +83,22 @@ double LogisticRegression::Cost(mat &inputX) {
   assert(inputX.n_cols == this->theta.n_rows);
   vec h = this->SigmoidFunction(inputX * this->theta);
   vec ve = (-this->y.t() * log(h)) - ((1 - y).t() * log(1 - h));
-  return (1 / (float)this->ExampleNumber() * ve).eval()(0, 0);
+  vec thetaWithoutFirst = this->theta;
+  thetaWithoutFirst[0] = 0;
+
+  return (1 / (float)this->ExampleNumber() * ve +
+          this->regPara / (double)this->ExampleNumber() * 2 *
+              thetaWithoutFirst.t() * thetaWithoutFirst)
+      .eval()(0, 0);
 }
 
 vec LogisticRegression::CostDerivative() {
   vec h = this->SigmoidFunction(this->x * this->theta);
   vec deriv = this->x.t() * (h - this->y);
-  return 1 / (double)this->ExampleNumber() * deriv;
+  vec thetaWithoutFirst = this->theta;
+  thetaWithoutFirst[0] = 0;
+  return 1 / (double)this->ExampleNumber() * deriv +
+         this->regPara / (double)this->ExampleNumber() * thetaWithoutFirst;
 }
 
 void LogisticRegression::GradientDescent(double alpha, unsigned int iters) {

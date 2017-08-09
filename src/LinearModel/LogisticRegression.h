@@ -15,13 +15,16 @@ class LogisticRegression {
   arma::vec theta;
 
 public:
+  // Regularization rate
+  double regPara;
+
   double probabilityThreshold = 0.5;
 
   // Model Trained or not
   bool trained;
 
   // Create a new instance from the given data set.
-  LogisticRegression(arma::mat &x, arma::vec &y);
+  LogisticRegression(arma::mat &x, arma::vec &y, double regPara = 0);
 
   // Destructor
   ~LogisticRegression();

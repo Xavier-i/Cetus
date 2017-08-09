@@ -6,8 +6,8 @@
 
 using namespace arma;
 
-LinearRegression::LinearRegression(mat &x, vec &y)
-    : x{x}, y{y}, trained{false} {
+LinearRegression::LinearRegression(mat &x, vec &y, double regPara)
+    : x{x}, y{y}, trained{false}, regPara{regPara} {
   assert(x.n_rows == y.n_rows);
 
   // Create bias column and append at the end of  x
@@ -44,9 +44,12 @@ void LinearRegression::Train(TrainingType Type, double alpha,
 
 void LinearRegression::NormalEquation() {
   mat xtx = (this->x.t() * this->x);
+  mat L = eye<mat>(xtx.n_rows, xtx.n_cols);
+  L[0] = 0;
   // Check if xtx is full-rank matrix
-  if (rank(xtx) == xtx.n_rows) {
-    this->theta = pinv(xtx) * this->x.t() * this->y;
+  if (rank(xtx) == xtx.n_rows || this->regPara > 0) {
+
+    this->theta = pinv(xtx - (this->regPara * L)) * this->x.t() * this->y;
     this->trained = true;
   } else {
     std::cerr << "you have to regularize your data set" << std::endl;
@@ -68,7 +71,10 @@ double LinearRegression::Predict(vec &x) {
 
 vec LinearRegression::CostDerivative() {
   vec deriv = (((this->x * this->theta) - this->y).t() * this->x).t();
-  return 1 / (double)this->ExampleNumber() * deriv;
+  vec thetaWithoutFirst = this->theta;
+  thetaWithoutFirst[0] = 0;
+  return 1 / (double)this->ExampleNumber() * deriv +
+         this->regPara / (double)this->ExampleNumber() * thetaWithoutFirst;
 }
 
 double LinearRegression::SelfCost() { return this->Cost(this->x); }
@@ -78,7 +84,11 @@ double LinearRegression::Cost(mat &inputX) {
   //--J(Theta) = 1/2m * (X Theta - y)^T (X Theta - y)--//
   assert(inputX.n_cols == this->theta.n_rows);
   vec ve = (inputX * this->theta) - this->y;
-  return (((float)1 / 2) * this->ExampleNumber() * ve.t() * ve).eval()(0, 0);
+  vec thetaWithoutFirst = this->theta;
+  thetaWithoutFirst[0] = 0;
+  return (((float)1 / 2) * this->ExampleNumber() * ve.t() * ve +
+          this->regPara * thetaWithoutFirst.t() * thetaWithoutFirst)
+      .eval()(0, 0);
 }
 
 void LinearRegression::GradientDescent(double alpha, unsigned int iters) {

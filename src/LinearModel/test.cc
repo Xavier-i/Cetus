@@ -65,7 +65,7 @@ void test3() {
 }
 int main() {
   testFailed();
-  // testSucc();
+  testSucc();
   testSucc2();
   test3();
 }

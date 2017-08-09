@@ -17,8 +17,11 @@ public:
   // Model Trained or not
   bool trained;
 
+  // Regularization rate
+  double regPara = 0;
+
   // Create a new instance from the given data set.
-  LinearRegression(arma::mat &x, arma::vec &y);
+  LinearRegression(arma::mat &x, arma::vec &y, double regPara = 0);
 
   // Destructor
   ~LinearRegression();

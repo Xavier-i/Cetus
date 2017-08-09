@@ -54,7 +54,7 @@ void test3() {
               "-1 1; 4 -6");
   vec y = vec("1 1 1 0 0 1 0 0 1 0 0 0 0 ");
   LogisticRegression *A = new LogisticRegression(x, y);
-  A->Train(true, 0.1, 100000);
+  A->Train(gradientDescent, 0.1, 100000);
   vec p = vec("3 0");
   vec q = vec("5 -5");
   vec f = vec("3 7");

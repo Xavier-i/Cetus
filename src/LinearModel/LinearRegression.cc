@@ -1,4 +1,5 @@
 #include "LinearRegression.h"
+#include "TrainingType.h"
 #include <armadillo>
 #include <assert.h>
 #include <iostream>

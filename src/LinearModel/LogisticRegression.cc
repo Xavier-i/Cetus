@@ -1,4 +1,5 @@
 #include "LogisticRegression.h"
+#include "TrainingType.h"
 #include <armadillo>
 #include <assert.h>
 #include <iostream>
@@ -31,12 +32,12 @@ void LogisticRegression::AddData(mat &extraX, vec &extraY) {
   this->y.insert_rows(this->y.n_rows, extraY);
 }
 
-void LogisticRegression::Train(bool gradient, double alpha,
+void LogisticRegression::Train(TrainingType Type, double alpha,
                                unsigned int iters) {
   /*if (Type == normalEquation) {
     this->NormalEquation();
   } else*/
-  if (gradient) {
+  if (Type == gradientDescent) {
     this->GradientDescent(alpha, iters);
   } else {
     std::cerr << "Invalid training type" << std::endl;

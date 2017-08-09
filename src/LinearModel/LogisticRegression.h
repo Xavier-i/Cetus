@@ -1,5 +1,6 @@
 #ifndef MODEL_LOGISTICREGRESSION_H_
 #define MODEL_LOGISTICREGRESSION_H_
+#include "TrainingType.h"
 #include <armadillo>
 
 class LogisticRegression {
@@ -29,7 +30,7 @@ public:
   void AddData(arma::mat &extraX, arma::vec &extraY);
 
   // Train the model
-  void Train(bool gradient, double alpha = 0, unsigned int iters = 0);
+  void Train(TrainingType Type, double alpha = 0, unsigned int iters = 0);
 
   // Return number of example
   arma::uword ExampleNumber();

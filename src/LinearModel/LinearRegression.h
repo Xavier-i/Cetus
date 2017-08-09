@@ -1,11 +1,7 @@
 #ifndef MODEL_LINEARREGRESSION_H_
 #define MODEL_LINEARREGRESSION_H_
+#include "TrainingType.h"
 #include <armadillo>
-
-enum TrainingType {
-  normalEquation,
-  gradientDescent,
-};
 
 class LinearRegression {
   // First feature

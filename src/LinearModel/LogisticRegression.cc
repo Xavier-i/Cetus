@@ -74,6 +74,8 @@ arma::mat LogisticRegression::SigmoidFunction(arma::mat inputX) {
 }
 
 double LogisticRegression::CostFunction() {
+  //--                  h = g(X Theta)                  --//
+  //--J(Theta) = 1/m * (-y^T log(h) - (1-y)^T log(1-h))--//
   vec h = this->SigmoidFunction(this->x * this->theta);
   vec ve = (-this->y.t() * log(h)) - ((1 - y).t() * log(1 - h));
   return (1 / (float)this->ExampleNumber() * ve).eval()(0, 0);

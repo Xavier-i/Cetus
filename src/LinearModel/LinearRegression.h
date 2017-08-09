@@ -39,6 +39,10 @@ public:
   // Predict y according to given x
   double Predict(arma::vec &x);
 
+  // Cost Function
+  // May return -nan when Cost is really small
+  double CostFunction();
+
 private:
   // Compute Cost Functions's Derivative
   arma::vec CostDerivative();

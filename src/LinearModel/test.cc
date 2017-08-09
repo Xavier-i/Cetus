@@ -46,6 +46,7 @@ void testSucc2() {
   A->AddData(ex, ey);
   A->Train(gradientDescent, 0.01, 1000);
   std::cout << A->Predict(q) << std::endl;
+  std::cout << A->CostFunction() << std::endl;
 }
 
 void test3() {

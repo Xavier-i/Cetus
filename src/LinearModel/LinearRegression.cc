@@ -80,7 +80,7 @@ double LinearRegression::SelfCost() { return this->Cost(this->x); }
 
 double LinearRegression::Cost(mat &inputX) {
   this->InitializeTheta();
-  //--J(Theta) = 1/2m * (X Theta - y)^T (X Theta - y)--//
+  //--J(Theta) = 1/2m * (X Theta - y)^T (X Theta - y) + lambda theta^2--//
   assert(inputX.n_cols == this->theta.n_rows);
   vec ve = (inputX * this->theta) - this->y;
   vec thetaWithoutFirst = this->theta;

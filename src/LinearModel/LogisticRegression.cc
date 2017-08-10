@@ -78,8 +78,8 @@ double LogisticRegression::SelfCost() { return this->Cost(this->x); }
 
 double LogisticRegression::Cost(mat &inputX) {
   this->InitializeTheta();
-  //--                  h = g(X Theta)                  --//
-  //--J(Theta) = 1/m * (-y^T log(h) - (1-y)^T log(1-h))--//
+  //--                    h = g(X Theta)                   --//
+  //--J(Theta) = 1/m * (-y^T log(h) - (1-y)^T log(1-h)) +lambda/2m theta^2--//
   assert(inputX.n_cols == this->theta.n_rows);
   vec h = this->SigmoidFunction(inputX * this->theta);
   vec ve = (-this->y.t() * log(h)) - ((1 - y).t() * log(1 - h));

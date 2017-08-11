@@ -17,6 +17,8 @@ class SupportVectorMahchine {
 
 public:
   // Regularization rate
+  //
+  // Small C -> Large Margin, insensitive to outlier
   double regParaC;
 
   // Model Trained or not

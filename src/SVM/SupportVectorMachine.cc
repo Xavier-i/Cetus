@@ -47,10 +47,10 @@ double SupportVectorMachine::Cost(mat &inputX) {
   // cost1 cost function when y = 1
   // cost0 cost function when y = 0
   vec A = (this->y.t() * (this->cost1(thetaX)) + ((1 - y).t() * (this->cost0(thetaX));
-  vec thetaWithoutFirst = this->theta;
-  thetaWithoutFirst[0] = 0;
+  //vec thetaWithoutFirst = this->theta;
+  //thetaWithoutFirst[0] = 0;
   vec B = (double)1/  2 *
-      thetaWithoutFirst.t() * thetaWithoutFirst);
+      this->theta.t() * this->theta);
   return (this->regParaC*A + B).eval()(0, 0);
 }
 

@@ -16,11 +16,14 @@ class SupportVectorMahchine {
   arma::vec theta;
 
 public:
+  // Regularization rate
+  double regParaC;
+
   // Model Trained or not
   bool trained;
 
   // Create a new instance from the given data set.
-  SupportVectorMahchine(arma::mat &x, arma::vec &y, double regPara = 0);
+  SupportVectorMahchine(arma::mat &x, arma::vec &y, double regParaC = 0);
 
   // Destructor
   ~SupportVectorMahchine();
@@ -30,34 +33,28 @@ public:
 
     // Train the model
     void Train(TrainingType Type, double alpha = 0, unsigned int iters = 0);
-
-    // Return number of example
-    arma::uword ExampleNumber();
-
-    // Predict y according to given x
-    double Predict(arma::vec &x);
-
-    // Predict probablity of 1
-    double Probablity(arma::vec &x);
-
-    // Cost function using the own data;
-    double SelfCost();
 */
+  // Return number of example
+  arma::uword ExampleNumber();
+
+  // SVM doesn't return probablity
+  // Predict y according to given x
+  double Predict(arma::vec &x);
+
+  // Cost function using the own data;
+  double SelfCost();
+
   // Cost Function
   // May return -nan when Cost is really small
-  //  double Cost(arma::mat &inputX);
-  /*
-    private:
-      // Initialize Theta if doesn't exist.
-      void InitializeTheta();
+  double Cost(arma::mat &inputX);
 
+private:
+  // Initialize Theta if doesn't exist.
+  void InitializeTheta();
+  /*
       // Compute Cost Functions's Derivative
       arma::vec CostDerivative();
 
-      arma::mat SigmoidFunction(arma::mat inputX);
-
-      // Normal Equation Method to find theta
-      // void NormalEquation();
 
       // Performs gradient descent to learn theta by taking iters gradient steps
       //   with learning rate alpha.

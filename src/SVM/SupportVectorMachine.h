@@ -2,6 +2,8 @@
 #define MODEL_SUPPORTVECTORMACHINE_H_
 #include <armadillo>
 
+enum KernelType { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
+
 class SupportVectorMahchine {
   // First feature
   arma::mat x;
@@ -40,26 +42,26 @@ public:
 
     // Cost function using the own data;
     double SelfCost();
+*/
+  // Cost Function
+  // May return -nan when Cost is really small
+  //  double Cost(arma::mat &inputX);
+  /*
+    private:
+      // Initialize Theta if doesn't exist.
+      void InitializeTheta();
 
-    // Cost Function
-    // May return -nan when Cost is really small
-    double Cost(arma::mat &inputX);
+      // Compute Cost Functions's Derivative
+      arma::vec CostDerivative();
 
-  private:
-    // Initialize Theta if doesn't exist.
-    void InitializeTheta();
+      arma::mat SigmoidFunction(arma::mat inputX);
 
-    // Compute Cost Functions's Derivative
-    arma::vec CostDerivative();
+      // Normal Equation Method to find theta
+      // void NormalEquation();
 
-    arma::mat SigmoidFunction(arma::mat inputX);
-
-    // Normal Equation Method to find theta
-    // void NormalEquation();
-
-    // Performs gradient descent to learn theta by taking iters gradient steps
-    //   with learning rate alpha.
-    void GradientDescent(double alpha, unsigned int iters);*/
+      // Performs gradient descent to learn theta by taking iters gradient steps
+      //   with learning rate alpha.
+      void GradientDescent(double alpha, unsigned int iters);*/
 };
 
 #endif

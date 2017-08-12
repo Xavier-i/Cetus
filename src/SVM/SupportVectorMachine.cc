@@ -1,10 +1,20 @@
-SupportVectorMachine #include "SupportVectorMahchine.h"
+#include "SupportVectorMahchine.h"
 
 #include <armadillo>
 #include <assert.h>
 #include <iostream>
 
-    using namespace arma;
+using namespace arma;
+
+SupportVectorMahchine::KernelFuc(mat &xi, mat &xj) {
+  if (this->kernel == LINEAR) {
+  } else if (this->kernel == POLY) {
+  } else if (this->kernel == RBF) {
+  } else if (this->kernel == SIGMOID) {
+  } else if (this->kernel == PRECOMPUTED) {
+  } else {
+  }
+}
 
 SupportVectorMahchine::SupportVectorMahchine(mat &x, vec &y, double regParaC)
     : x{x}, y{y}, trained{false}, regParaC{regParaC} {

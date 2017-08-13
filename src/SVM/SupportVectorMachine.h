@@ -1,8 +1,7 @@
+#include "Kernel.h"
 #ifndef MODEL_SUPPORTVECTORMACHINE_H_
 #define MODEL_SUPPORTVECTORMACHINE_H_
 #include <armadillo>
-
-enum KernelType { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
 
 class SupportVectorMahchine {
   // First feature
@@ -25,7 +24,8 @@ public:
   bool trained;
 
   // Create a new instance from the given data set.
-  SupportVectorMahchine(arma::mat &x, arma::vec &y, double regParaC = 0);
+  SupportVectorMahchine(arma::mat &x, arma::vec &y, double regParaC = 1,
+                        KernelType kernel = LINEAR);
 
   // Destructor
   ~SupportVectorMahchine();

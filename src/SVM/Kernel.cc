@@ -7,14 +7,12 @@
 using namespace arma;
 
 Kernel::Kernel(int l, svm_node *const *x_, const SvmParameter &param)
-    : kernelType(param.kernel_type), degree(param.degree), gamma(param.gamma),
+    : kernelType(param.kernelType), degree(param.degree), gamma(param.gamma),
       coef0(param.coef0) {
   switch (kernel_type) {
     if (this->kernelType == LINEAR) {
       kernel_function = &Kernel::KernelLinear;
-    }
-
-    if (this->kernelType == POLY) {
+    } else if (this->kernelType == POLY) {
       kernel_function = &Kernel::KernelPoly;
     } else if (this->kernelType == RBF) {
       kernel_function = &Kernel::KernelRBF;

@@ -1,35 +1,31 @@
 #ifndef MODEL_SUPPORTVECTORMACHINE_KERNEL_H_
 #define MODEL_SUPPORTVECTORMACHINE_KERNEL_H_
+#include "Para.h"
 #include <armadillo>
 
 enum KernelType { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
 
 class Kernel {
 public:
-  Kernel();
+  Kernel(int l, svm_node *const *x, const svm_parameter &param);
   ~Kernel();
 
-  static double k_function();
+  // static double k_function();
 
+  // Function Pointer
+  double (Kernel::*kernel_function)(int i, int j) const;
   // svm_parameter
-  const int kernel_type;
+  const KernelType kernelType;
   const int degree;
   const double gamma;
   const double coef0;
 
-  double kernel_linear(int i, int j) const { return dot(x[i], x[j]); }
-  double kernel_poly(int i, int j) const {
-    return powi(gamma * dot(x[i], x[j]) + coef0, degree);
-  }
-  double kernel_rbf(int i, int j) const {
-    return exp(-gamma * (x_square[i] + x_square[j] - 2 * dot(x[i], x[j])));
-  }
-  double kernel_sigmoid(int i, int j) const {
-    return tanh(gamma * dot(x[i], x[j]) + coef0);
-  }
-  double kernel_precomputed(int i, int j) const {
-    return x[i][(int)(x[j][0].value)].value;
-  }
+  // linear: u'*v
+  // polynomial: (gamma*u'*v + coef0)^degree
+  // radial basis function: exp(-gamma*|u-v|^2)
+  // sigmoid: tanh(gamma*u'*v + coef0)
+  // precomputed kernel (kernel values in training_set_file)
+  double KernelLinear(arma::mat x, arma::vec y) const { return x * y; }
 };
 
 #endif

@@ -1,11 +1,12 @@
 #include "Kernel.h"
+#include "Para.h"
 #include <armadillo>
 #include <assert.h>
 #include <iostream>
 
 using namespace arma;
 
-Kernel::Kernel(int l, svm_node *const *x_, const svm_parameter &param)
+Kernel::Kernel(int l, svm_node *const *x_, const SvmParameter &param)
     : kernelType(param.kernel_type), degree(param.degree), gamma(param.gamma),
       coef0(param.coef0) {
   switch (kernel_type) {

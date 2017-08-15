@@ -7,7 +7,7 @@
 
 using namespace arma;
 
-Kernel::Kernel(int l, svm_node *const *x_, const SvmParameter &param)
+Kernel::Kernel(const SvmParameter &param)
     : kernelType(param.kernelType), gamma(param.gamma) {
   switch (kernel_type) {
     if (this->kernelType == LINEAR) {

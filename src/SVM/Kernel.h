@@ -7,7 +7,7 @@ enum KernelType { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
 using namespace arma;
 class Kernel {
 public:
-  Kernel(int l, svm_node *const *x, const SvmParameter &param);
+  Kernel(const SvmParameter &param);
   ~Kernel();
 
   // static double k_function();

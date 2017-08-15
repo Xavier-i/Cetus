@@ -8,8 +8,7 @@
 using namespace arma;
 
 Kernel::Kernel(int l, svm_node *const *x_, const SvmParameter &param)
-    : kernelType(param.kernelType), degree(param.degree), gamma(param.gamma),
-      coef0(param.coef0) {
+    : kernelType(param.kernelType), gamma(param.gamma) {
   switch (kernel_type) {
     if (this->kernelType == LINEAR) {
       kernel_function = &Kernel::KernelLinear;

@@ -4,7 +4,7 @@
 #include <armadillo>
 
 enum KernelType { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
-
+using namespace arma;
 class Kernel {
 public:
   Kernel(int l, svm_node *const *x, const SvmParameter &param);
@@ -25,7 +25,9 @@ public:
   // radial basis function: exp(-gamma*|u-v|^2)
   // sigmoid: tanh(gamma*u'*v + coef0)
   // precomputed kernel (kernel values in training_set_file)
-  double KernelLinear(arma::mat x, arma::vec y) const { return x * y; }
+
+  vec KernelLinear(mat x, vec y) const;
+  vec KernelRBF(mat x, vec y) const;
 };
 
 #endif

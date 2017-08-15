@@ -6,12 +6,15 @@ struct SvmParameter {
   KernelType kernelType;
 
   // For POLY
-  int degree;
+  // int degree;
   // For POLY and SIGMOID
-  double coef0;
+  // double coef0;
+
   // For Poly RBF AND SIGMOID
   double gamma;
-  double coef0;
+
+  // For Poly and SIGMOID
+  // double coef0;
 };
 
 #endif

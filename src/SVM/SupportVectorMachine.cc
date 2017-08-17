@@ -61,3 +61,13 @@ void SupportVectorMachine::InitializeTheta() {
     this->theta = zeros<vec>(this->x.n_cols);
   }
 }
+
+// An SMO algorithm in Fan et al., JMLR 6(2005), p. 1889--1918
+// Solves:
+//
+//	min 0.5(\alpha^T Q \alpha) + p^T \alpha
+//
+//		y^T \alpha = \delta
+//		y_i = +1 or -1
+//		0 <= alpha_i <= Cp for y_i = 1
+//		0 <= alpha_i <= Cn for y_i = -1

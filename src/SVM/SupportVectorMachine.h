@@ -14,6 +14,9 @@ class SupportVectorMahchine {
   // Vector for predication
   arma::vec theta;
 
+  // Kernel
+  Kernel *kernel;
+
 public:
   // Regularization rate
   //

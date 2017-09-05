@@ -13,7 +13,7 @@ public:
   // static double k_function();
 
   // Function Pointer
-  double (Kernel::*kernel_function)(int i, int j) const;
+  double (Kernel::*KernelFunction)(int i, int j) const;
   // svm_parameter
   const KernelType kernelType;
   const int degree;

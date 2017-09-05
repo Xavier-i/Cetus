@@ -8,11 +8,13 @@ class SmoSolver {
 public:
   SvmSolver();
   ~SvmSolver();
+  Kernel *kernel;
 
 private:
   int TakeStep(int i1, int i2);
   int ExamineExample(int i2);
 
+  double C;
   arma::vec lagrangeMultiplier;
   arma::vec errorCache;
   arma::vec y;

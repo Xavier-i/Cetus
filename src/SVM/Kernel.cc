@@ -11,15 +11,15 @@ Kernel::Kernel(const SvmParameter &param)
     : kernelType(param.kernelType), gamma(param.gamma) {
   switch (kernel_type) {
     if (this->kernelType == LINEAR) {
-      kernel_function = &Kernel::KernelLinear;
+      KernelFunction = &Kernel::KernelLinear;
     } else if (this->kernelType == RBF) {
-      kernel_function = &Kernel::KernelRBF;
+      KernelFunction = &Kernel::KernelRBF;
     } /* else if (this->kernelType == POLY) {
-       kernel_function = &Kernel::KernelPoly;
+       KernelFunction = &Kernel::KernelPoly;
      } else if (this->kernelType == SIGMOID) {
-       kernel_function = &Kernel::kernel_sigmoid;
+       KernelFunction = &Kernel::kernel_sigmoid;
      } else if (this->kernelType == KernelSigmoid) {
-       kernel_function = &Kernel::kernel_precomputed;
+       KernelFunction = &Kernel::kernel_precomputed;
      }*/
   }
 

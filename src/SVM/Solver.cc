@@ -1,7 +1,7 @@
 #include "Solver.cc"
 #include <armadillo>
 
-int SvmSolver::TakeStep(int i1, int i2) {
+int SmoSolver::TakeStep(int i1, int i2) {
   double alpha1 = 0.0, alpha2 = 0.0;
   int y1 = 0, y2 = 0;
   double e1 = 0.0, e2 = 0.0;

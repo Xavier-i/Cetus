@@ -4,7 +4,7 @@
 #include "Para.h"
 #include <armadillo>
 
-class SvmSolver {
+class SmoSolver {
 public:
   SvmSolver();
   ~SvmSolver();

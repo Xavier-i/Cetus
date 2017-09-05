@@ -13,7 +13,8 @@ private:
   int TakeStep(int i1, int i2);
   int ExamineExample(int i2);
 
-  arma::vec LagrangeMultiplier;
+  arma::vec lagrangeMultiplier;
+  arma::vec errorCache;
 };
 
 #endif

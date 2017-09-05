@@ -12,5 +12,6 @@ int SvmSolver::TakeStep(int i1, int i2) {
 
   alpha1 = this->lagrangeMultiplier[i1];
   y1 = this->y[i1];
-  // e1 =
+
+  e1 = errorCache[i1];
 }

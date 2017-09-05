@@ -15,6 +15,7 @@ private:
 
   arma::vec lagrangeMultiplier;
   arma::vec errorCache;
+  arma::vec y;
 };
 
 #endif

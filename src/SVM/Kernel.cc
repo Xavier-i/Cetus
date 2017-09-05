@@ -42,3 +42,8 @@ vec Kernel::KernelRBF(mat X, vec y) {
   }
   return result
 }
+
+vec Kernel::KernelLinear(vec x1, vec x2) { return x1.t() * x2; }
+vec Kernel::KernelRBF(vec x1, vec x2) {
+  return exp(-this->gamma * norm((x1 - x2), 2) ^ 2);
+}

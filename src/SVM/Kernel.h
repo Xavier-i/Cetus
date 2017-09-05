@@ -28,6 +28,9 @@ public:
 
   vec KernelLinear(mat x, vec y) const;
   vec KernelRBF(mat x, vec y) const;
+
+  vec KernelLinear(vec x1, vec x2) const;
+  vec KernelRBF(vec x1, vec x2) const;
 };
 
 #endif

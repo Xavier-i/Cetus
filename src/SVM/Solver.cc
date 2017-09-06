@@ -41,7 +41,8 @@ int SmoSolver::TakeStep(int i1, int i2) {
   k11 = this->kernel->KernelFunction(i1, i1);
   k12 = this->kernel->KernelFunction(i1, i2);
   k22 = this->kernel->KernelFunction(i2, i2);
-  eta = 2 * k12 - k11 - k22;
+  eta = k11 + k22 - 2 * k12;
+
   if (eta > 0) {
     a2 = alpha2 + y2 * (e1 - e2) / eta;
     if (a2 < low) {
@@ -50,5 +51,29 @@ int SmoSolver::TakeStep(int i1, int i2) {
       a2 = high;
     }
   } else {
+    // In papaer 2.1 (19)
+    double f1 = y1 * (e1 + this->b) - alpha1 * k11 - s * alpha2 * k12;
+    double f2 = y2 * (e2 + this->b) - s * alpha1 * k12 - alpha2 * k12;
+    double low1 = alpha1 + s * (alpha2 - low);
+    double high1 = alpha1 + s * (alpha2 - high);
+    double objLow = low1 * f1 + low * f2 + 0.5 * low1 ^ 2 * k11 + 0.5 * low ^
+                    2 * k22 + s * low * low1 * k12;
+    double objHigh = high1 * f1 + high * f2 + 0.5 * high1 ^
+                     2 * k11 + 0.5 * high ^
+                     2 * k22 + s * high * high1 * K(i1, i2);
+    if (objLow < objHigh - this->eps) {
+      a2 = low;
+    } else if (objLow > objHigh + this->eps) {
+      a2 = high;
+    } else {
+      a2 = alpha2;
+    }
+
+    if (std::abs(a2 - alpha2) < this->eps * (a2 + alpha2 + this->eps)) {
+      return 0;
+    }
+    a1 = alpha1 + s * (alpha2 - a2);
+
+    // Update threshold to reflect change in Lagrange multipliers
   }
 }

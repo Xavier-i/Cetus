@@ -15,6 +15,8 @@ private:
   int ExamineExample(int i2);
 
   double C;
+  double b;
+  double eps = 1.0e-7;
   arma::vec lagrangeMultiplier;
   arma::vec errorCache;
   arma::vec y;

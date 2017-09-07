@@ -21,7 +21,7 @@ int SmoSolver::TakeStep(int i1, int i2) {
   y1 = this->y[i1];
   y2 = this->y[i2];
 
-  // Havent developed
+  // TODO
   e1 = SvmOutputOnPoint(i1) - y1;
   e2 = SvmOutputOnPoint(i1) - y2;
   s = y1 * y2;
@@ -75,5 +75,35 @@ int SmoSolver::TakeStep(int i1, int i2) {
     a1 = alpha1 + s * (alpha2 - a2);
 
     // Update threshold to reflect change in Lagrange multipliers
+    double b1 = 0.0;
+    double b2 = 0.0;
+    double bReal = 0.0;
+    double temp1 = y1 * (a1 - alpha1);
+    double temp2 = y2 * (a2 - alpha2);
+    if (a1 > 0 && a1 < this->C) {
+      bReal = e1 + temp1 * k11 + temp2 * k12 + b;
+    } else if (a2 > 0 && a2 < this->C) {
+      bReal = e2 + temp1 * k12 + temp2 * k22 + b;
+    } else {
+      b1 = e1 + temp1 * k11 + temp2 * k12 + b;
+      b2 = e2 + temp1 * k12 + temp2 * k22 + b;
+      bnew = (b1 + b2) / 2.0;
+    }
+    this->b = bnew;
+
+    // Update weight vector (theta) to reflect change in al & a2, if SVM is
+    // linear
+    if (this->Kernel->KernelType == LINEAR) {
+      this->theta = this->theta + temp1 * this->x.row(i1).t() +
+                    temp2 * this->x.row(i2).t();
+    }
+    // Update error cache using new Lagrange multipliers
+    // TODO
+    _error_cache[i1] = 0.0;
+    _error_cache[i2] = 0.0;
+    // Store a1, a2 in the alpha array
+    this->lagrangeMultiplier[i1] = a1;
+    this->lagrangeMultiplier[i2] = a2;
+    return 1;
   }
 }

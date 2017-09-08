@@ -1,7 +1,26 @@
-#include "Solver.cc"
+#include "Solver.h"
 #include <algorithm> /* min, max */
 #include <armadillo>
+#include <assert.h>
 #include <stdlib.h> /* abs */
+
+using namespace arma;
+
+double SmoSolver::SvmOutputOnPoint(int i) {
+  vec point = this->x.row(i).t();
+  double result = this->kernel->KernelFunction(this->theta, point);
+  return result - this->b;
+}
+
+double SmoSolver::KernelCal(int i1; int i2; bool onlyKernel){
+  vec point1 = this->x.row(i1).t();
+  vec point2 = this->x.row(i2).t();
+  double result = this->kernel->KernelFunction(point1, point2);
+  if(onlyKernel){
+    return result
+  }
+  return result - this->b;
+}
 
 int SmoSolver::TakeStep(int i1, int i2) {
   double alpha1 = 0.0, alpha2 = 0.0;
@@ -21,12 +40,12 @@ int SmoSolver::TakeStep(int i1, int i2) {
   y1 = this->y[i1];
   y2 = this->y[i2];
 
-  // TODO
-  e1 = SvmOutputOnPoint(i1) - y1;
-  e2 = SvmOutputOnPoint(i1) - y2;
+  e1 = this->SvmOutputOnPoint(i1) - y1;
+  e2 = this->SvmOutputOnPoint(i1) - y2;
   s = y1 * y2;
   if (y1 != y2) {
-    double temp = alpha2 - alpha1 low = std::max(0, temp);
+    double temp = alpha2 - alpha1;
+    low = std::max(0, temp);
     high = std::min(this->C, this->C + temp);
   } else {
     double temp = alpha2 + alpha1;
@@ -34,13 +53,14 @@ int SmoSolver::TakeStep(int i1, int i2) {
     high = std::min(this->C, temp);
   }
 
+
   // check if low is equal to high
   if (abs(low - high) < 1.0e-7) {
     return 0;
   }
-  k11 = this->kernel->KernelFunction(i1, i1);
-  k12 = this->kernel->KernelFunction(i1, i2);
-  k22 = this->kernel->KernelFunction(i2, i2);
+  k11 = this->KernelCal(i1, i1,true);
+  k12 = this->KernelCal(i1, i2,true);
+  k22 = this->KernelCal(i2, i2,true);
   eta = k11 + k22 - 2 * k12;
 
   if (eta > 0) {
@@ -87,13 +107,13 @@ int SmoSolver::TakeStep(int i1, int i2) {
     } else {
       b1 = e1 + temp1 * k11 + temp2 * k12 + b;
       b2 = e2 + temp1 * k12 + temp2 * k22 + b;
-      bnew = (b1 + b2) / 2.0;
+      bReal = (b1 + b2) / 2.0;
     }
-    this->b = bnew;
+    this->b = bReal;
 
     // Update weight vector (theta) to reflect change in al & a2, if SVM is
     // linear
-    if (this->Kernel->KernelType == LINEAR) {
+    if (this->kernel->KernelType == LINEAR) {
       this->theta = this->theta + temp1 * this->x.row(i1).t() +
                     temp2 * this->x.row(i2).t();
     }

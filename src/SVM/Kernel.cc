@@ -32,17 +32,13 @@ Kernel::Kernel(const SvmParameter &param)
   } else
     x_square = 0;*/
 }
-
-vec Kernel::KernelLinear(mat X, vec y) { return x * y; }
-vec Kernel::KernelRBF(mat X, vec y) {
-  int rowNum = X.n_rows;
-  vec result = zeros<vec>(rowNum);
-  for (unsigned int i = 0; i < rowNum; i++) {
-    result[i] = exp(-this->gamma * norm((x.row(i).t() - y), 2) ^ 2);
-  }
-  return result
+/*
+double Kernel::KernelLinear(int i1, int i2) {
+  return this->KernelLinear(this->x.rows(i1).t(),this->x.rows(i2).t()); }
+double Kernel::KernelRBF(vec x, vec y) {
+  return this->KernelRBF(this->x.rows(i1).t(),this->x.rows(i2).t());
 }
-
+*/
 vec Kernel::KernelLinear(vec x1, vec x2) { return x1.t() * x2; }
 vec Kernel::KernelRBF(vec x1, vec x2) {
   return exp(-this->gamma * norm((x1 - x2), 2) ^ 2);

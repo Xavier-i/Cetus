@@ -6,8 +6,8 @@
 
 class SmoSolver {
 public:
-  SvmSolver();
-  ~SvmSolver();
+  SmoSolver();
+  ~SmoSolver();
   Kernel *kernel;
   arma::vec &theta;
   // First feature
@@ -24,10 +24,10 @@ private:
   double C;
   double b;
   double eps = 1.0e-7;
-
+  double SvmOutputOnPoint(int i);
+  double KernelCal(int i1; int i2; bool onlyKernel);
   arma::vec lagrangeMultiplier;
   arma::vec errorCache;
-  arma::vec y;
 };
 
 #endif

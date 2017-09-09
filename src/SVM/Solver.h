@@ -13,15 +13,15 @@ public:
   Kernel *kernel;
   arma::vec theta;
   // First feature
-  arma::mat &x;
+  arma::mat x;
   bool trained;
 
   // Target feature
   // Elements in y have to be either 1 or 0
-  arma::vec &y;
+  arma::vec y;
   int ExampleNum();
   int Train();
-  double Predict(arma::vec &x);
+  double Predict(arma::vec x);
 
 private:
   int TakeStep(int i1, int i2);

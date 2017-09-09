@@ -14,7 +14,9 @@ double SmoSolver::SvmOutputOnPoint(int i) {
   return result - this->b;
 }
 
-double SmoSolver::Predict(vec &x) { return dot(this->theta, x) - this->b; }
+double SmoSolver::Predict(vec x) {
+  return dot(this->theta, x) - this->b;
+}
 
 double SmoSolver::KernelCal(int i1, int i2) {
   vec point1 = this->x.row(i1).t();
@@ -209,7 +211,7 @@ int SmoSolver::Train() {
   int exampleNum = this->ExampleNum();
   if (!trained) {
     this->b = 0.0;
-    this->theta = zeros<vec>(exampleNum);
+    this->theta = zeros<vec>(this->x.n_cols);
     this->errorCache = zeros<vec>(exampleNum);
     this->lagrangeMultiplier = zeros<vec>(exampleNum);
   }

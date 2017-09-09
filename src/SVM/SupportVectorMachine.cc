@@ -16,7 +16,7 @@ SupportVectorMachine::SupportVectorMachine(mat x, vec y, double regParaC,
   mat bias = ones<mat>(this->ExampleNumber(), 1);
   this->x.insert_cols(0, bias);
   this->kernel = new Kernel(type);
-  this->solver = new SmoSolver(x, y, regParaC, kernel);
+  this->solver = new SmoSolver(this->x, y, regParaC, kernel);
 }
 
 SupportVectorMachine::~SupportVectorMachine() {
@@ -32,7 +32,7 @@ int SupportVectorMachine::Train() {
 }
 
 // SVM doesn't return probablity
-int SupportVectorMachine::Predict(vec &x) {
+int SupportVectorMachine::Predict(vec x) {
   if (!this->trained) {
     std::cerr << "This model hasn't been trained" << std::endl;
     return 0.0;

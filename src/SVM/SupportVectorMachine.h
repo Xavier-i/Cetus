@@ -37,7 +37,7 @@ public:
 
   // SVM doesn't return probablity
   // Predict y according to given x
-  int Predict(arma::vec &x);
+  int Predict(arma::vec x);
   int Train();
 };
 

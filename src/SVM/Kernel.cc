@@ -27,10 +27,12 @@ double Kernel::KernelRBF(vec x, vec y) {
   return this->KernelRBF(this->x.rows(i1).t(),this->x.rows(i2).t());
 }
 */
-double Kernel::KernelLinear(vec &x1, vec &x2) const {
+double Kernel::KernelLinear(vec x1, vec x2) const {
+  assert(x1.n_elem == x2.n_elem);
   return arma::dot(x1, x2);
 }
-double Kernel::KernelRBF(vec &x1, vec &x2) const {
-  double temp =norm(x1 - x2);
-  return exp(-this->gamma * pow(temp,2.0));
+double Kernel::KernelRBF(vec x1, vec x2) const {
+  assert(x1.n_elem == x2.n_elem);
+  double temp = norm(x1 - x2);
+  return exp(-this->gamma * pow(temp, 2.0));
 }

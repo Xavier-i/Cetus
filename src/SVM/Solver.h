@@ -3,7 +3,7 @@
 #include "Kernel.h"
 #include "Para.h"
 #include <armadillo>
-double tol = 1.0e-3;
+#define TOL 1.0e-3
 
 class SmoSolver {
 public:

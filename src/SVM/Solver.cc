@@ -2,8 +2,8 @@
 #include <algorithm> /* min, max */
 #include <armadillo>
 #include <assert.h>
-#include <math.h>   /* pow */
 #include <functional>
+#include <math.h>   /* pow */
 #include <stdlib.h> /* abs, drand48 */
 
 using namespace arma;
@@ -123,8 +123,8 @@ int SmoSolver::TakeStep(int i1, int i2) {
   // Update weight vector (theta) to reflect change in al & a2, if SVM is
   // linear
   if (this->kernel->kernelType == LINEAR) {
-    this->theta = this->theta + temp1 * this->x.row(i1).t() +
-                  temp2 * this->x.row(i2).t();
+    this->theta =
+        this->theta + temp1 * this->x.row(i1).t() + temp2 * this->x.row(i2).t();
   }
   // Update error cache using new Lagrange multipliers
   int exampleNum = this->ExampleNum();
@@ -164,7 +164,7 @@ int SmoSolver::ExamineExample(int i2) {
   double tmax = 0.0;
   int i1 = 0;
   int k = 0;
-  if ((r2 < -tol && alpha2 < this->C) || (r2 > tol && alpha2 > 0)) {
+  if ((r2 < -TOL && alpha2 < this->C) || (r2 > TOL && alpha2 > 0)) {
     for (i1 = -1, tmax = 0, k = 0; k < exampleNum; k++) {
       if (lagrangeMultiplier[k] > 0 && lagrangeMultiplier[k] < this->C) {
         double e1 = 0.0;
@@ -219,11 +219,11 @@ int SmoSolver::Train() {
   while (numChanged > 0 || examineAll) {
     numChanged = 0;
     if (examineAll) {
-      for (unsigned int i = 0; i < exampleNum; i++) {
+      for (int i = 0; i < exampleNum; i++) {
         numChanged += ExamineExample(i);
       }
     } else {
-      for (unsigned int i = 0; i < exampleNum; i++) {
+      for (int i = 0; i < exampleNum; i++) {
         if (lagrangeMultiplier[i] != 0 && lagrangeMultiplier[i] != C) {
           numChanged += ExamineExample(i);
         }

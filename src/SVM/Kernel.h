@@ -8,7 +8,7 @@ using namespace arma;
 class Kernel {
 public:
   Kernel(KernelType type);
-  ~Kernel();
+  ~Kernel(){};
   double gamma = 1.0;
 
   // static double k_function();

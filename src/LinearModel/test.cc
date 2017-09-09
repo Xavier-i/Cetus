@@ -64,6 +64,7 @@ void test3() {
   std::cout << A->Predict(f) << std::endl;
   std::cout << A->SelfCost() << std::endl;
 }
+
 int main() {
   testFailed();
   testSucc();

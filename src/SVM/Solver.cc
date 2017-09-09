@@ -2,6 +2,7 @@
 #include <algorithm> /* min, max */
 #include <armadillo>
 #include <assert.h>
+#include <math.h>   /* pow */
 #include <stdlib.h> /* abs, drand48 */
 
 using namespace arma;
@@ -12,9 +13,7 @@ double SmoSolver::SvmOutputOnPoint(int i) {
   return result - this->b;
 }
 
-double SmoSolver::Predict(vec &x){
-  return dot(this->theta, x) - this->b;
-}
+double SmoSolver::Predict(vec &x) { return dot(this->theta, x) - this->b; }
 
 double SmoSolver::KernelCal(int i1, int i2) {
   vec point1 = this->x.row(i1).t();
@@ -84,11 +83,10 @@ int SmoSolver::TakeStep(int i1, int i2) {
     double f2 = y2 * (e2 + this->b) - s * alpha1 * k12 - alpha2 * k12;
     double low1 = alpha1 + s * (alpha2 - low);
     double high1 = alpha1 + s * (alpha2 - high);
-    double objLow = low1 * f1 + low * f2 + 0.5 * low1 ^ 2 * k11 + 0.5 * low ^
-                    2 * k22 + s * low * low1 * k12;
-    double objHigh = high1 * f1 + high * f2 + 0.5 * high1 ^
-                     2 * k11 + 0.5 * high ^
-                     2 * k22 + s * high * high1 * k12;
+    double objLow = low1 * f1 + low * f2 + 0.5 * pow(low1, 2.0) * k11 +
+                    0.5 * pow(low, 2.0) * k22 + s * low * low1 * k12;
+    double objHigh = high1 * f1 + high * f2 + 0.5 * pow(high1, 2.0) * k11 +
+                     0.5 * pow(high, 2.0) * k22 + s * high * high1 * k12;
     if (objLow < objHigh - this->eps) {
       a2 = low;
     } else if (objLow > objHigh + this->eps) {

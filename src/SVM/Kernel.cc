@@ -33,5 +33,5 @@ double Kernel::KernelLinear(vec &x1, vec &x2) const {
 }
 double Kernel::KernelRBF(vec &x1, vec &x2) const {
   double temp =norm(x1 - x2);
-  return exp(-this->gamma * (temp * temp));
+  return exp(-this->gamma * pow(temp,2.0));
 }

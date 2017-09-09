@@ -6,16 +6,21 @@
 double tol = 1.0e-3;
 class SmoSolver {
 public:
-  SmoSolver();
-  ~SmoSolver();
+  SmoSolver(arma::mat &x, arma::vec &y, Kernel *kernel)
+      : x{x}, y{y}, kernel{kernel};
+  ~SmoSolver(){};
   Kernel *kernel;
-  arma::vec &theta;
+  arma::vec theta;
   // First feature
   arma::mat &x;
+  bool trained;
 
   // Target feature
   // Elements in y have to be either 1 or 0
   arma::vec &y;
+  int ExampleNum();
+  int Train();
+  double Predict(arma::vec &x);
 
 private:
   int TakeStep(int i1, int i2);

@@ -1,13 +1,13 @@
 #ifndef MODEL_SUPPORTVECTORMACHINE_KERNEL_H_
 #define MODEL_SUPPORTVECTORMACHINE_KERNEL_H_
-#include "Para.h"
+
 #include <armadillo>
 
 enum KernelType { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
 using namespace arma;
 class Kernel {
 public:
-  Kernel(const SvmParameter &param);
+  Kernel(KernelType type);
   ~Kernel();
 
   // static double k_function();
@@ -17,9 +17,6 @@ public:
   double (Kernel::*KernelFunction)(vec x, vec y) const;
   // svm_parameter
   const KernelType kernelType;
-  const int degree;
-  const double gamma;
-  const double coef0;
 
   // linear: u'*v
   // polynomial: (gamma*u'*v + coef0)^degree

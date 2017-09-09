@@ -11,7 +11,9 @@ double SmoSolver::SvmOutputOnPoint(int i) {
   double result = this->kernel->KernelFunction(this->theta, point);
   return result - this->b;
 }
-
+double Predict(vec &x){
+  return dot(theta,x)-this->b;
+}
 double SmoSolver::KernelCal(int i1; int i2; bool onlyKernel) {
   vec point1 = this->x.row(i1).t();
   vec point2 = this->x.row(i2).t();
@@ -127,9 +129,9 @@ int SmoSolver::TakeStep(int i1, int i2) {
                     temp2 * this->x.row(i2).t();
     }
     // Update error cache using new Lagrange multipliers
-    int exampleNum = this->x.n_rows;
+    int exampleNum = this->ExampleNum();
     for (int i = 0; i < exampleNum, i++) {
-      if (alpha[i] > 0 && alpha[i] < this->C) {
+      if (lagrangeMultiplier[i] > 0 && lagrangeMultiplier[i] < this->C) {
         this->errorCache[i] += temp1 * this->KernelCal(i1, i) +
                                temp2 * this->KernelCal(i2, i) - bDiff;
       }
@@ -160,14 +162,14 @@ int SmoSolver::ExamineExample(int i2) {
   }
   r2 = e2 * y2;
 
-  int exampleNum = this->x.n_rows;
+  int exampleNum = this->ExampleNum();
   //
   double tmax = 0.0;
   int i1 = 0;
   int k = 0;
   if ((r2 < -tol && alpha2 < this->C) || (r2 > tol && alpha2 > 0)) {
     for (i1 = -1, tmax = 0, k = 0; k < exampleNum; k++) {
-      if (alpha[k] > 0 && alpha[k] < this->C) {
+      if (lagrangeMultiplier[k] > 0 && lagrangeMultiplier[k] < this->C) {
         double e1 = 0.0;
         double temp = 0.0;
         e1 = _error_cache[k];
@@ -187,7 +189,7 @@ int SmoSolver::ExamineExample(int i2) {
     for (int i = (int)(drand48() * exampleNum), k = i; k < exampleNum + i;
          k++) {
       i1 = k % exampleNum;
-      if (alpha[i1] > 0 && _alpha[i1] < _c) {
+      if (lagrangeMultiplier[i1] > 0 && _lagrangeMultiplier[i1] < _c) {
         if (take_step(i1, i2)) {
           return 1;
         }
@@ -201,5 +203,41 @@ int SmoSolver::ExamineExample(int i2) {
       }
     }
   }
+  return 0;
+}
+
+int SmoSolver::ExampleNum() { return (int)this->x.n_rows; }
+
+int Train() {
+  int exampleNum = this->ExampleNum();
+  if (!trained) {
+    this->b = 0.0;
+    this->theta = zeros<vec>(exampleNum);
+    this->errorCache = zeros<vec>(exampleNum);
+    this->lagrangeMultiplier = zeros<vec>(exampleNum);
+  }
+
+  unsigned int numChanged = 0;
+  unsigned int examineAll = 1;
+  while (numChanged > 0 || examineAll) {
+    numChanged = 0;
+    if (examineAll) {
+      for (unsigned int i = 0; i < exampleNum; i++) {
+        numChanged += this->examineExample(i)
+      }
+    } else {
+      for (unsigned int i = 0; i < exampleNum; i++) {
+        if (lagrangeMultiplier[i] != 0 && lagrangeMultiplier[i] != _c) {
+          num_changed += examine_example(i);
+        }
+      }
+    }
+    if (examineAll == 1) {
+      examineAll = 0;
+    } else if (numChanged == 0) {
+      examineAll = 1;
+    }
+  }
+  this->trained = true;
   return 0;
 }

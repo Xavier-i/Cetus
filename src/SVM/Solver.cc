@@ -8,20 +8,18 @@ using namespace arma;
 
 double SmoSolver::SvmOutputOnPoint(int i) {
   vec point = this->x.row(i).t();
-  double result = this->kernel->*KernelFunction(this->theta, point);
+  double result = this->kernel->KernelFunction(this->theta, point);
   return result - this->b;
 }
-double Predict(vec &x){
-  return dot(theta,x)-this->b;
+
+double SmoSolver::Predict(vec &x){
+  return dot(this->theta, x) - this->b;
 }
-double SmoSolver::KernelCal(int i1; int i2; bool onlyKernel) {
+
+double SmoSolver::KernelCal(int i1, int i2) {
   vec point1 = this->x.row(i1).t();
   vec point2 = this->x.row(i2).t();
-  double result = this->kernel->*KernelFunction(point1, point2);
-  if (onlyKernel) {
-    return result
-  }
-  return result - this->b;
+  return this->kernel->KernelFunction(point1, point2);
 }
 
 int SmoSolver::TakeStep(int i1, int i2) {
@@ -56,11 +54,11 @@ int SmoSolver::TakeStep(int i1, int i2) {
   s = y1 * y2;
   if (y1 != y2) {
     double temp = alpha2 - alpha1;
-    low = std::max(0, temp);
+    low = std::max(0.0, temp);
     high = std::min(this->C, this->C + temp);
   } else {
     double temp = alpha2 + alpha1;
-    low = std::max(0, temp - this->C);
+    low = std::max(0.0, temp - this->C);
     high = std::min(this->C, temp);
   }
 
@@ -68,9 +66,9 @@ int SmoSolver::TakeStep(int i1, int i2) {
   if (abs(low - high) < 1.0e-7) {
     return 0;
   }
-  k11 = this->KernelCal(i1, i1, true);
-  k12 = this->KernelCal(i1, i2, true);
-  k22 = this->KernelCal(i2, i2, true);
+  k11 = this->KernelCal(i1, i1);
+  k12 = this->KernelCal(i1, i2);
+  k22 = this->KernelCal(i2, i2);
   eta = k11 + k22 - 2 * k12;
 
   if (eta > 0) {
@@ -90,7 +88,7 @@ int SmoSolver::TakeStep(int i1, int i2) {
                     2 * k22 + s * low * low1 * k12;
     double objHigh = high1 * f1 + high * f2 + 0.5 * high1 ^
                      2 * k11 + 0.5 * high ^
-                     2 * k22 + s * high * high1 * K(i1, i2);
+                     2 * k22 + s * high * high1 * k12;
     if (objLow < objHigh - this->eps) {
       a2 = low;
     } else if (objLow > objHigh + this->eps) {
@@ -124,13 +122,13 @@ int SmoSolver::TakeStep(int i1, int i2) {
 
     // Update weight vector (theta) to reflect change in al & a2, if SVM is
     // linear
-    if (this->kernel->KernelType == LINEAR) {
+    if (this->kernel->kernelType == LINEAR) {
       this->theta = this->theta + temp1 * this->x.row(i1).t() +
                     temp2 * this->x.row(i2).t();
     }
     // Update error cache using new Lagrange multipliers
     int exampleNum = this->ExampleNum();
-    for (int i = 0; i < exampleNum, i++) {
+    for (int i = 0; i < exampleNum; i++) {
       if (lagrangeMultiplier[i] > 0 && lagrangeMultiplier[i] < this->C) {
         this->errorCache[i] += temp1 * this->KernelCal(i1, i) +
                                temp2 * this->KernelCal(i2, i) - bDiff;
@@ -158,7 +156,7 @@ int SmoSolver::ExamineExample(int i2) {
   if (alpha2 > 0 && alpha2 < this->C) {
     e2 = this->errorCache[i2];
   } else {
-    e2 = this->SvmOutputOnPoint(i1) - y2;
+    e2 = this->SvmOutputOnPoint(i2) - y2;
   }
   r2 = e2 * y2;
 
@@ -172,7 +170,7 @@ int SmoSolver::ExamineExample(int i2) {
       if (lagrangeMultiplier[k] > 0 && lagrangeMultiplier[k] < this->C) {
         double e1 = 0.0;
         double temp = 0.0;
-        e1 = _error_cache[k];
+        e1 = this->errorCache[k];
         temp = std::abs(e2 - e1);
         if (temp > tmax) {
           tmax = temp;
@@ -180,7 +178,7 @@ int SmoSolver::ExamineExample(int i2) {
         }
       }
       if (i1 >= 0) {
-        if (take_step(i1, i2)) {
+        if (TakeStep(i1, i2)) {
           return 1;
         }
       }
@@ -189,8 +187,8 @@ int SmoSolver::ExamineExample(int i2) {
     for (int i = (int)(drand48() * exampleNum), k = i; k < exampleNum + i;
          k++) {
       i1 = k % exampleNum;
-      if (lagrangeMultiplier[i1] > 0 && _lagrangeMultiplier[i1] < _c) {
-        if (take_step(i1, i2)) {
+      if (lagrangeMultiplier[i1] > 0 && lagrangeMultiplier[i1] < C) {
+        if (TakeStep(i1, i2)) {
           return 1;
         }
       }
@@ -198,7 +196,7 @@ int SmoSolver::ExamineExample(int i2) {
     for (int i = (int)(drand48() * exampleNum), k = i; k < exampleNum + i;
          k++) {
       i1 = k % exampleNum;
-      if (take_step(i1, i2)) {
+      if (TakeStep(i1, i2)) {
         return 1;
       }
     }
@@ -208,7 +206,7 @@ int SmoSolver::ExamineExample(int i2) {
 
 int SmoSolver::ExampleNum() { return (int)this->x.n_rows; }
 
-int Train() {
+int SmoSolver::Train() {
   int exampleNum = this->ExampleNum();
   if (!trained) {
     this->b = 0.0;
@@ -223,12 +221,12 @@ int Train() {
     numChanged = 0;
     if (examineAll) {
       for (unsigned int i = 0; i < exampleNum; i++) {
-        numChanged += this->examineExample(i)
+        numChanged += ExamineExample(i);
       }
     } else {
       for (unsigned int i = 0; i < exampleNum; i++) {
-        if (lagrangeMultiplier[i] != 0 && lagrangeMultiplier[i] != _c) {
-          num_changed += examine_example(i);
+        if (lagrangeMultiplier[i] != 0 && lagrangeMultiplier[i] != C) {
+          numChanged += ExamineExample(i);
         }
       }
     }

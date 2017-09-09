@@ -7,7 +7,7 @@
 
 using namespace arma;
 
-SupportVectorMahchine::SupportVectorMahchine(mat x, vec y, double regParaC,
+SupportVectorMachine::SupportVectorMachine(mat x, vec y, double regParaC,
                                              KernelType type)
     : x{x}, y{y}, trained{false} {
   assert(x.n_rows == y.n_rows);
@@ -19,17 +19,18 @@ SupportVectorMahchine::SupportVectorMahchine(mat x, vec y, double regParaC,
   this->solver = new SmoSolver(x, y, regParaC, kernel);
 }
 
-SupportVectorMahchine::~SupportVectorMahchine() {
+SupportVectorMachine::~SupportVectorMachine() {
   delete this->kernel;
   delete this->solver;
 }
 
-uword LogisticRegression::ExampleNumber() { return this->x.n_rows; }
+uword SupportVectorMachine::ExampleNumber() { return this->x.n_rows; }
 
 int SupportVectorMachine::Train() {
-  this->solver.train();
   trained = true;
+  return this->solver->Train();
 }
+
 // SVM doesn't return probablity
 int SupportVectorMachine::Predict(vec &x) {
   if (!this->trained) {
@@ -39,7 +40,7 @@ int SupportVectorMachine::Predict(vec &x) {
   vec bias = vec("1");
   vec input = x;
   input.insert_rows(0, bias);
-  if (this->solver->predict(input) >= 0) {
+  if (this->solver->Predict(input) >= 0) {
     return 1;
   } else {
     return -1;

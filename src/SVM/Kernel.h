@@ -15,7 +15,7 @@ public:
 
   // Function Pointer
   // double (Kernel::*KernelFunction)(int i, int j) const;
-  double (Kernel::*KernelFunction)(vec &x1, vec &x2) const;
+  double (*KernelFunction)(vec &x1, vec &x2);
   // svm_parameter
   const KernelType kernelType;
 

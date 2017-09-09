@@ -4,7 +4,7 @@
 #include "Solver.h"
 #include <armadillo>
 
-class SupportVectorMahchine {
+class SupportVectorMachine {
   // First feature
   arma::mat x;
 
@@ -20,11 +20,11 @@ public:
   bool trained;
 
   // Create a new instance from the given data set.
-  SupportVectorMahchine(arma::mat x, arma::vec y, double regParaC,
+  SupportVectorMachine(arma::mat x, arma::vec y, double regParaC,
                         KernelType type = LINEAR);
 
   // Destructor
-  ~SupportVectorMahchine();
+  ~SupportVectorMachine();
   /*
     // Add other features
     void AddData(arma::mat &extraX, arma::vec &extraY);

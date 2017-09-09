@@ -3,7 +3,7 @@
 #include "Kernel.h"
 #include "Para.h"
 #include <armadillo>
-
+double tol = 1.0e-3;
 class SmoSolver {
 public:
   SmoSolver();
@@ -25,7 +25,7 @@ private:
   double b;
   double eps = 1.0e-7;
   double SvmOutputOnPoint(int i);
-  double KernelCal(int i1; int i2; bool onlyKernel);
+  double KernelCal(int i1, int i2, bool onlyKernel);
   arma::vec lagrangeMultiplier;
   arma::vec errorCache;
 };

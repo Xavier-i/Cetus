@@ -8,7 +8,7 @@ double tol = 1.0e-3;
 class SmoSolver {
 public:
   SmoSolver(arma::mat &x, arma::vec &y, double regPar = 1.0, Kernel *kernel= new Kernel(LINEAR))
-      : kernel{kernel}, x{x}, y{y}, C{regPar} {};
+      : kernel{kernel}, x{x}, y{y}, C{regPar} {}
   ~SmoSolver(){};
   Kernel *kernel;
   arma::vec theta;

@@ -7,7 +7,6 @@
 using namespace arma;
 
 Kernel::Kernel(KernelType type) : kernelType(type) {
-
   if (this->kernelType == LINEAR) {
     KernelFunction = &Kernel::KernelLinear;
   } else if (this->kernelType == RBF) {

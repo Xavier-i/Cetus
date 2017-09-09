@@ -3,13 +3,14 @@
 #include <armadillo>
 #include <assert.h>
 #include <math.h>   /* pow */
+#include <functional>
 #include <stdlib.h> /* abs, drand48 */
 
 using namespace arma;
 
 double SmoSolver::SvmOutputOnPoint(int i) {
   vec point = this->x.row(i).t();
-  double result = this->kernel->KernelFunction(this->theta, point);
+  double result = (kernel->*(kernel->KernelFunction))(this->theta, point);
   return result - this->b;
 }
 
@@ -18,7 +19,7 @@ double SmoSolver::Predict(vec &x) { return dot(this->theta, x) - this->b; }
 double SmoSolver::KernelCal(int i1, int i2) {
   vec point1 = this->x.row(i1).t();
   vec point2 = this->x.row(i2).t();
-  return this->kernel->KernelFunction(point1, point2);
+  return (kernel->*(kernel->KernelFunction))(point1, point2);
 }
 
 int SmoSolver::TakeStep(int i1, int i2) {
@@ -94,53 +95,53 @@ int SmoSolver::TakeStep(int i1, int i2) {
     } else {
       a2 = alpha2;
     }
-
-    if (std::abs(a2 - alpha2) < this->eps * (a2 + alpha2 + this->eps)) {
-      return 0;
-    }
-    a1 = alpha1 + s * (alpha2 - a2);
-
-    // Update threshold to reflect change in Lagrange multipliers
-    double b1 = 0.0;
-    double b2 = 0.0;
-    double bReal = 0.0;
-    double temp1 = y1 * (a1 - alpha1);
-    double temp2 = y2 * (a2 - alpha2);
-    if (a1 > 0 && a1 < this->C) {
-      bReal = e1 + temp1 * k11 + temp2 * k12 + b;
-    } else if (a2 > 0 && a2 < this->C) {
-      bReal = e2 + temp1 * k12 + temp2 * k22 + b;
-    } else {
-      b1 = e1 + temp1 * k11 + temp2 * k12 + b;
-      b2 = e2 + temp1 * k12 + temp2 * k22 + b;
-      bReal = (b1 + b2) / 2.0;
-    }
-    double bDiff = bReal - this->b;
-    this->b = bReal;
-
-    // Update weight vector (theta) to reflect change in al & a2, if SVM is
-    // linear
-    if (this->kernel->kernelType == LINEAR) {
-      this->theta = this->theta + temp1 * this->x.row(i1).t() +
-                    temp2 * this->x.row(i2).t();
-    }
-    // Update error cache using new Lagrange multipliers
-    int exampleNum = this->ExampleNum();
-    for (int i = 0; i < exampleNum; i++) {
-      if (lagrangeMultiplier[i] > 0 && lagrangeMultiplier[i] < this->C) {
-        this->errorCache[i] += temp1 * this->KernelCal(i1, i) +
-                               temp2 * this->KernelCal(i2, i) - bDiff;
-      }
-    }
-
-    this->errorCache[i1] = 0.0;
-    this->errorCache[i2] = 0.0;
-
-    // Store a1, a2 in the alpha array
-    this->lagrangeMultiplier[i1] = a1;
-    this->lagrangeMultiplier[i2] = a2;
-    return 1;
   }
+
+  if (std::abs(a2 - alpha2) < this->eps * (a2 + alpha2 + this->eps)) {
+    return 0;
+  }
+  a1 = alpha1 + s * (alpha2 - a2);
+
+  // Update threshold to reflect change in Lagrange multipliers
+  double b1 = 0.0;
+  double b2 = 0.0;
+  double bReal = 0.0;
+  double temp1 = y1 * (a1 - alpha1);
+  double temp2 = y2 * (a2 - alpha2);
+  if (a1 > 0 && a1 < this->C) {
+    bReal = e1 + temp1 * k11 + temp2 * k12 + b;
+  } else if (a2 > 0 && a2 < this->C) {
+    bReal = e2 + temp1 * k12 + temp2 * k22 + b;
+  } else {
+    b1 = e1 + temp1 * k11 + temp2 * k12 + b;
+    b2 = e2 + temp1 * k12 + temp2 * k22 + b;
+    bReal = (b1 + b2) / 2.0;
+  }
+  double bDiff = bReal - this->b;
+  this->b = bReal;
+
+  // Update weight vector (theta) to reflect change in al & a2, if SVM is
+  // linear
+  if (this->kernel->kernelType == LINEAR) {
+    this->theta = this->theta + temp1 * this->x.row(i1).t() +
+                  temp2 * this->x.row(i2).t();
+  }
+  // Update error cache using new Lagrange multipliers
+  int exampleNum = this->ExampleNum();
+  for (int i = 0; i < exampleNum; i++) {
+    if (lagrangeMultiplier[i] > 0 && lagrangeMultiplier[i] < this->C) {
+      this->errorCache[i] += temp1 * this->KernelCal(i1, i) +
+                             temp2 * this->KernelCal(i2, i) - bDiff;
+    }
+  }
+
+  this->errorCache[i1] = 0.0;
+  this->errorCache[i2] = 0.0;
+
+  // Store a1, a2 in the alpha array
+  this->lagrangeMultiplier[i1] = a1;
+  this->lagrangeMultiplier[i2] = a2;
+  return 1;
 }
 
 int SmoSolver::ExamineExample(int i2) {

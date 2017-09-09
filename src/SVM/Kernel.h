@@ -9,13 +9,13 @@ class Kernel {
 public:
   Kernel(KernelType type);
   ~Kernel();
-  double gamma=1.0;
+  double gamma = 1.0;
 
   // static double k_function();
 
   // Function Pointer
   // double (*KernelFunction)(int i, int j);
-  double (*KernelFunction)(vec &x1, vec &x2);
+  double (Kernel::*KernelFunction)(vec &x1, vec &x2) const;
   // svm_parameter
   const KernelType kernelType;
 

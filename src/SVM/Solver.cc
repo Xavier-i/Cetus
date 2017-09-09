@@ -8,7 +8,7 @@ using namespace arma;
 
 double SmoSolver::SvmOutputOnPoint(int i) {
   vec point = this->x.row(i).t();
-  double result = this->kernel->KernelFunction(this->theta, point);
+  double result = this->kernel->*KernelFunction(this->theta, point);
   return result - this->b;
 }
 double Predict(vec &x){
@@ -17,7 +17,7 @@ double Predict(vec &x){
 double SmoSolver::KernelCal(int i1; int i2; bool onlyKernel) {
   vec point1 = this->x.row(i1).t();
   vec point2 = this->x.row(i2).t();
-  double result = this->kernel->KernelFunction(point1, point2);
+  double result = this->kernel->*KernelFunction(point1, point2);
   if (onlyKernel) {
     return result
   }

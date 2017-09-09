@@ -1,7 +1,8 @@
 #ifndef MODEL_SUPPORTVECTORMACHINE_H_
 #define MODEL_SUPPORTVECTORMACHINE_H_
-#include <armadillo>
 #include "Kernel.h"
+#include "Solver.h"
+#include <armadillo>
 
 class SupportVectorMahchine {
   // First feature
@@ -15,12 +16,11 @@ class SupportVectorMahchine {
   Kernel *kernel;
 
 public:
-
   // Model Trained or not
   bool trained;
 
   // Create a new instance from the given data set.
-  SupportVectorMahchine(arma::mat x, arma::vec y,
+  SupportVectorMahchine(arma::mat x, arma::vec y, double regParaC,
                         KernelType type = LINEAR);
 
   // Destructor
@@ -39,8 +39,6 @@ public:
   // Predict y according to given x
   int Predict(arma::vec &x);
   int Train();
-
-
 };
 
 #endif

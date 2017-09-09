@@ -21,15 +21,6 @@ Kernel::Kernel(KernelType type) : kernelType(type) {
    }*/
 }
 
-/*clone(x, x_, l);
-
-if (kernel_type == RBF) {
-  x_square = new double[l];
-  for (int i = 0; i < l; i++)
-    x_square[i] = dot(x[i], x[i]);
-} else
-  x_square = 0;*/
-
 /*
 double Kernel::KernelLinear(int i1, int i2) {
   return this->KernelLinear(this->x.rows(i1).t(),this->x.rows(i2).t()); }
@@ -37,7 +28,10 @@ double Kernel::KernelRBF(vec x, vec y) {
   return this->KernelRBF(this->x.rows(i1).t(),this->x.rows(i2).t());
 }
 */
-double Kernel::KernelLinear(vec x1, vec x2) { return arma::dot(x1, x2); }
-double Kernel::KernelRBF(vec x1, vec x2) {
-  return exp(-this->gamma * norm((x1 - x2), 2) ^ 2);
+double Kernel::KernelLinear(vec &x1, vec &x2) const {
+  return arma::dot(x1, x2);
+}
+double Kernel::KernelRBF(vec &x1, vec &x2) const {
+  double temp =norm(x1 - x2);
+  return exp(-this->gamma * (temp * temp));
 }

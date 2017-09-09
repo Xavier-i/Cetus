@@ -7,7 +7,7 @@
 
 using namespace arma;
 
-LogisticRegression::LogisticRegression(mat &x, vec &y, double regPara)
+LogisticRegression::LogisticRegression(mat x, vec y, double regPara)
     : x{x}, y{y}, regPara{regPara}, trained{false} {
   assert(x.n_rows == y.n_rows);
 
@@ -18,7 +18,7 @@ LogisticRegression::LogisticRegression(mat &x, vec &y, double regPara)
 
 LogisticRegression::~LogisticRegression() {}
 
-void LogisticRegression::AddData(mat &extraX, vec &extraY) {
+void LogisticRegression::AddData(mat extraX, vec extraY) {
   assert(extraX.n_rows == extraY.n_rows);
   // Add 1 because x has a bias column
   assert((extraX.n_cols + 1) == this->x.n_cols);
@@ -46,7 +46,7 @@ void LogisticRegression::Train(TrainingType Type, double alpha,
 
 uword LogisticRegression::ExampleNumber() { return this->x.n_rows; }
 
-double LogisticRegression::Probablity(vec &x) {
+double LogisticRegression::Probablity(vec x) {
   if (!this->trained) {
     std::cerr << "This model hasn't been trained" << std::endl;
     return 0.0;
@@ -54,11 +54,10 @@ double LogisticRegression::Probablity(vec &x) {
   vec bias = vec("1");
   vec input = x;
   input.insert_rows(0, bias);
-  double prob = (input.t() * this->theta).eval()(0, 0);
-  return prob;
+  return dot(input, this->theta);
 }
 
-double LogisticRegression::Predict(vec &x) {
+double LogisticRegression::Predict(vec x) {
   double prob = this->Probablity(x);
   if (prob >= probabilityThreshold) {
     return 1;
@@ -76,7 +75,7 @@ arma::mat LogisticRegression::SigmoidFunction(arma::mat inputX) {
 
 double LogisticRegression::SelfCost() { return this->Cost(this->x); }
 
-double LogisticRegression::Cost(mat &inputX) {
+double LogisticRegression::Cost(mat inputX) {
   this->InitializeTheta();
   //--                    h = g(X Theta)                   --//
   //--J(Theta) = 1/m * (-y^T log(h) - (1-y)^T log(1-h)) +lambda/2m theta^2--//

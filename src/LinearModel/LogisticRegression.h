@@ -24,13 +24,13 @@ public:
   bool trained;
 
   // Create a new instance from the given data set.
-  LogisticRegression(arma::mat &x, arma::vec &y, double regPara = 0);
+  LogisticRegression(arma::mat x, arma::vec y, double regPara = 0);
 
   // Destructor
   ~LogisticRegression();
 
   // Add other features
-  void AddData(arma::mat &extraX, arma::vec &extraY);
+  void AddData(arma::mat extraX, arma::vec extraY);
 
   // Train the model
   void Train(TrainingType Type, double alpha = 0, unsigned int iters = 0);
@@ -39,17 +39,17 @@ public:
   arma::uword ExampleNumber();
 
   // Predict y according to given x
-  double Predict(arma::vec &x);
+  double Predict(arma::vec x);
 
   // Predict probablity of 1
-  double Probablity(arma::vec &x);
+  double Probablity(arma::vec x);
 
   // Cost function using the own data;
   double SelfCost();
 
   // Cost Function
   // May return -nan when Cost is really small
-  double Cost(arma::mat &inputX);
+  double Cost(arma::mat inputX);
 
 private:
   // Initialize Theta if doesn't exist.

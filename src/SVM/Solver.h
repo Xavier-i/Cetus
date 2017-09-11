@@ -7,7 +7,7 @@
 
 class SmoSolver {
 public:
-  SmoSolver(arma::mat &x, arma::vec &y, double regPar = 1.0, Kernel *kernel= new Kernel(LINEAR))
+  SmoSolver(arma::mat &x, arma::vec &y, Kernel *kernel, double regPar = 1.0)
       : kernel{kernel}, x{x}, y{y}, C{regPar} {}
   ~SmoSolver(){};
   Kernel *kernel;

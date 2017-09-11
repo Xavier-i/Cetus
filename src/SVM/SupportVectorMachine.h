@@ -1,6 +1,7 @@
 #ifndef MODEL_SUPPORTVECTORMACHINE_H_
 #define MODEL_SUPPORTVECTORMACHINE_H_
 #include "Kernel.h"
+#include "Para.h"
 #include "Solver.h"
 #include <armadillo>
 
@@ -21,7 +22,7 @@ public:
 
   // Create a new instance from the given data set.
   SupportVectorMachine(arma::mat x, arma::vec y, double regParaC,
-                        KernelType type = LINEAR);
+                       SvmParameter *para);
 
   // Destructor
   ~SupportVectorMachine();

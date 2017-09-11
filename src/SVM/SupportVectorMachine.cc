@@ -1,4 +1,5 @@
 #include "Kernel.h"
+#include "Para.h"
 #include "Solver.h"
 #include "SupportVectorMachine.h"
 #include <armadillo>
@@ -8,15 +9,15 @@
 using namespace arma;
 
 SupportVectorMachine::SupportVectorMachine(mat x, vec y, double regParaC,
-                                             KernelType type)
+                                           SvmParameter *para)
     : x{x}, y{y}, trained{false} {
   assert(x.n_rows == y.n_rows);
 
   // Create bias column and append at the end of  x
   mat bias = ones<mat>(this->ExampleNumber(), 1);
   this->x.insert_cols(0, bias);
-  this->kernel = new Kernel(type);
-  this->solver = new SmoSolver(this->x, y, regParaC, kernel);
+  this->kernel = new Kernel(para);
+  this->solver = new SmoSolver(this->x, y, kernel, regParaC);
 }
 
 SupportVectorMachine::~SupportVectorMachine() {

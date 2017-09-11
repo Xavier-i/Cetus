@@ -1,8 +1,14 @@
 #ifndef MODEL_SUPPORTVECTORMACHINE_PARAMETER_H_
 #define MODEL_SUPPORTVECTORMACHINE_PARAMETER_H_
-#include "Kernel.h"
+
+
+enum KernelType { LINEAR, POLY, RBF, SIGMOID, PRECOMPUTED }; /* kernel_type */
 
 struct SvmParameter {
+
+  SvmParameter(KernelType type = LINEAR, double gamma = 1.0)
+      : kernelType{type}, gamma{gamma} {}
+  ~SvmParameter(){}
   KernelType kernelType;
 
   // For POLY

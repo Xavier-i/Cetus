@@ -1,4 +1,5 @@
 #include "Kernel.h"
+#include "Para.h"
 #include <armadillo>
 #include <assert.h>
 #include <iostream>
@@ -6,7 +7,8 @@
 
 using namespace arma;
 
-Kernel::Kernel(KernelType type) : kernelType(type) {
+Kernel::Kernel(SvmParameter *para)
+    : kernelType(para->kernelType), gamma{para->gamma} {
   if (this->kernelType == LINEAR) {
     KernelFunction = &Kernel::KernelLinear;
   } else if (this->kernelType == RBF) {

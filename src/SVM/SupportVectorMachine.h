@@ -21,8 +21,7 @@ public:
   bool trained;
 
   // Create a new instance from the given data set.
-  SupportVectorMachine(arma::mat x, arma::vec y, double regParaC,
-                       SvmParameter *para);
+  SupportVectorMachine(arma::mat x, arma::vec y, SvmParameter *para);
 
   // Destructor
   ~SupportVectorMachine();

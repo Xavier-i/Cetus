@@ -11,7 +11,7 @@ void test1() {
               "-1 1; 4 -6");
   vec y = vec("1 1 1 -1 -1 1 -1 -1 1 -1 -1 -1 -1 ");
   SvmParameter *para = new SvmParameter();
-  SupportVectorMachine *A = new SupportVectorMachine(x, y, 1.0, para);
+  SupportVectorMachine *A = new SupportVectorMachine(x, y, para);
   A->Train();
 
   vec p = vec("3 0");

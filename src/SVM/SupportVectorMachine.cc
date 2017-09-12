@@ -8,8 +8,7 @@
 
 using namespace arma;
 
-SupportVectorMachine::SupportVectorMachine(mat x, vec y, double regParaC,
-                                           SvmParameter *para)
+SupportVectorMachine::SupportVectorMachine(mat x, vec y, SvmParameter *para)
     : x{x}, y{y}, trained{false} {
   assert(x.n_rows == y.n_rows);
 
@@ -17,7 +16,7 @@ SupportVectorMachine::SupportVectorMachine(mat x, vec y, double regParaC,
   mat bias = ones<mat>(this->ExampleNumber(), 1);
   this->x.insert_cols(0, bias);
   this->kernel = new Kernel(para);
-  this->solver = new SmoSolver(this->x, y, kernel, regParaC);
+  this->solver = new SmoSolver(this->x, y, kernel, para->regParameterC);
 }
 
 SupportVectorMachine::~SupportVectorMachine() {

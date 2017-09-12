@@ -1,5 +1,5 @@
-#ifndef _TRAININGTYPE_H_
-#define _TRAININGTYPE_H_
+#ifndef CETUS_TRAININGTYPE_H_
+#define CETUS_TRAININGTYPE_H_
 
 enum TrainingType {
   normalEquation,

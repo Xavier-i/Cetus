@@ -85,9 +85,8 @@ double LinearRegression::Cost(mat &inputX) {
   vec ve = (inputX * this->theta) - this->y;
   vec thetaWithoutFirst = this->theta;
   thetaWithoutFirst[0] = 0;
-  return (((float)1 / 2) * this->ExampleNumber() * ve.t() * ve +
-          this->regPara * thetaWithoutFirst.t() * thetaWithoutFirst)
-      .eval()(0, 0);
+  return (((float)1 / 2) * this->ExampleNumber() * dot(ve,ve) +
+          this->regPara * dot(thetaWithoutFirst, thetaWithoutFirst));
 }
 
 void LinearRegression::GradientDescent(double alpha, unsigned int iters) {

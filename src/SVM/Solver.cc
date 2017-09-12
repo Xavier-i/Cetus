@@ -2,6 +2,7 @@
 #include <algorithm> /* min, max */
 #include <armadillo>
 #include <assert.h>
+#include <iostream>
 #include <functional>
 #include <math.h>   /* pow */
 #include <stdlib.h> /* abs, drand48 */
@@ -15,6 +16,10 @@ double SmoSolver::SvmOutputOnPoint(int i) {
 }
 
 double SmoSolver::Predict(vec x) {
+  if (!this->trained) {
+    std::cerr << "This model hasn't been trained" << std::endl;
+    return 0.0;
+  }
   return dot(this->theta, x) - this->b;
 }
 

@@ -12,7 +12,10 @@ class SupportVectorMachine {
   // Target feature
   // Elements in y have to be either 1 or 0
   arma::vec y;
+
+  //A Svm solver using SMO algorithm
   SmoSolver *solver;
+
   // Kernel
   Kernel *kernel;
 

@@ -85,7 +85,7 @@ double LinearRegression::Cost(mat &inputX) {
   vec ve = (inputX * this->theta) - this->y;
   vec thetaWithoutFirst = this->theta;
   thetaWithoutFirst[0] = 0;
-  return (((float)1 / 2) * this->ExampleNumber() * dot(ve,ve) +
+  return (((double)1 / 2) * this->ExampleNumber() * dot(ve,ve) +
           this->regPara * dot(thetaWithoutFirst, thetaWithoutFirst));
 }
 

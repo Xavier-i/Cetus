@@ -1,4 +1,5 @@
-# CETUS - a C++ machine learning library
+# CETUS: a C++ machine learning library
+
 
 ## Table of Contents
 

@@ -3,7 +3,7 @@
 ## Table of Contents
 
 1. [Dependencies](#dependencies)
-2. [Bug reporting](#bug-reporting)
+2. [Bug Reporting](#bug-reporting)
 3. [Reference](#reference)
 
 
@@ -16,7 +16,7 @@ Cetus has the following dependencies:
 If you are compiling Armadillo by hand, ensure that LAPACK and BLAS are enabled. Or apt-get install will be an easier way.
 
 
-## Bug reporting
+## Bug Reporting
 
 If you find a bug in Cetus or have any issue, feel free to open an issue on Github
 

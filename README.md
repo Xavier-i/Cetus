@@ -3,8 +3,8 @@
 ## Table of Contents
 
 1. [Dependencies](#dependencies)
-2. [Bug Reporting](#bug-reporting)
-3. [Reference](#reference)
+1. [Bug Reporting](#bug-reporting)
+1. [Reference](#reference)
 
 
 ## Dependencies

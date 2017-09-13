@@ -6,8 +6,8 @@ enum ModelType { LINEARREGRESSION, LOGISTICREGRESSION, SVM }; /* model_type */
 struct ModelInput {
   ModelType type;
 
-  arma::mat x;
-  arma::vec y;
+  arma::mat data;
+  arma::vec target;
 };
 
 
